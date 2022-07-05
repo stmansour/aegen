@@ -1,0 +1,7 @@
+How To Use vidmaker.jsx
+
+Creates a new comp named LyricVideo.  Running the script creates the comp and
+spreads the lyrics of the song over the length of the comp.  It can cut out
+blank areas (currently called solos).
+
+You can press undo after running the script to remove everything the script did.

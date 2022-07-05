@@ -3,21 +3,10 @@ var lapp = {
     songTitle: "Living Life",
     introDuration: 5,           // seconds
     songDuration: 3*60 + 47,    // seconds
-    lyricStart: 7,              // seconds
-    lyricStop: 3*60 + 40,       // seconds
-    comp: app.project.activeItem,
+    lyricStart: 7,              // seconds - starts at 0:07
+    lyricStop: 3*60 + 40,       // seconds - stops at 3:40
 };
 
-function initapp() {
-    if (!(lapp.comp instanceof CompItem)) {
-        for (var i = 0; i < app.items.numItems; i++) {
-            if (app.items[i] instanceof CompItem) {
-                lapp.comp = app.items[i];
-                break;
-            }
-        }
-    }
-}
 fontList = [
 	"ACaslonPro-Bold",
 	"ACaslonPro-BoldItalic",
@@ -1212,6 +1201,8 @@ function createSong() {
             "One more time",
             "Livin' Life",
         ],
+        // set the solo start & stop times in seconds.  These are just
+        // areas of the song where there are no vocals.
         solos: [
             { start: 0*60 + 55, stop: 1*60 +  4 },
             // { start: 1*60 + 21, stop: 1*60 + 28 },
@@ -1219,7 +1210,7 @@ function createSong() {
             // { start: 2*60 + 38, stop: 2*60 + 40 },
             { start: 2*60 + 45, stop: 3*60 +  6 },
         ],
-};
+    };
     return song;
 }
 
@@ -1261,8 +1252,8 @@ function soloStopTime(song,n) {
 }
 
 function buildLyricVid() {
-    var comp = lapp.comp;
-    var song = createSong();
+    // var comp = lapp.comp;
+    var song = createSong();   // load lyrics, set times where lyrics are excluded
     var i;
 
     //-----------------------------------------------------------------------
@@ -1273,6 +1264,7 @@ function buildLyricVid() {
 
     //-----------------------------------------------------------------------
     // Next, how much time is taken is taken up by solos...
+    // The idea is to space the lines out evenly and dodge the solo areas
     //-----------------------------------------------------------------------
     var solotime = 0;
     var soloidx = -1;  // assume no solos
@@ -1285,19 +1277,37 @@ function buildLyricVid() {
         lyricDuration -= song.solos[i].stop - song.solos[i].start;  // duration of this solo
     }
 
-    var inTime = lapp.introDuration + lapp.lyricStart;
+    var inTime = lapp.lyricStart;  // First lyric line goes here
     var layer, tprop, tdoc;
+
     var proj = app.project;
-    var item = proj.item(1);
+    if(!proj) {
+        proj = app.newProject();
+    }
+
+    // create new comp
+    var compW = 1920;                   // comp width
+    var compH = 1080;                   // comp height
+    var compL = lapp.songDuration;      // comp length (seconds)
+    var compRate = 30;                  // comp frame rate
+    var compBG = [48/255,63/255,84/255] // comp background color
+
+    var myItemCollection = app.project.items;
+    var comp = myItemCollection.addComp('LyricVideo',compW,compH,1,compL,compRate);
+    comp.bgColor = compBG;
 
     //-----------------------------------------------------------------------
-    // For how long is each lyric is visible?  This is certainly not perfect,
-    // but it's a reasonable starting point.
+    // Compute how long is each lyric is visible.  This is approximated as the
+    // total time lyrics are sung divided by the number of lines of lyrics.
+    // This is certainly not perfect, but it's a reasonable starting point.
     //-----------------------------------------------------------------------
     var dt = lyricDuration / song.lyrics.length;
 
+    //-----------------------------------------------------------------------
+    // Now spin through each line of the song and add it
+    //-----------------------------------------------------------------------
     for (i = 0; i < song.lyrics.length; i++) {
-        layer = item.layers.addText(song.lyrics[i]);
+        layer = comp.layers.addText(song.lyrics[i]);
         tprop = layer.property("Source Text");
         tdoc = setupTextDocument(tprop.value);
         tprop.setValue(tdoc);
@@ -1328,6 +1338,5 @@ function mainscript() {
 }
 
 app.beginUndoGroup("Add Lyrics");
-    initapp();
     mainscript();
 app.endUndoGroup();
