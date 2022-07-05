@@ -1,5 +1,7 @@
+
 var lyricapp = {
     directory: "/Users/stevemansour/Documents/src/js/aegen/lyricvid",
+    lyricsfilename: "/Users/stevemansour/Documents/src/js/aegen/lyricvid/testvid/lyrics.txt",
     songTitle: "Living Life",
     introDuration: 5,           // seconds
     songDuration: 3*60 + 47,    // seconds
