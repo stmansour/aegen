@@ -1,0 +1,8 @@
+To Do List
+
+1. Read the lyrics in from a text file.
+2. Generate a fontList
+3. Set the name and size of the lyric vid externally
+4. Break the source file up and assemble it via a script
+5. Determine length of the song by examining the .mp3 file.
+6. Add the MP3 file as an asset and add it to the project.

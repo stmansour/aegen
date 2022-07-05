@@ -1,12 +1,11 @@
-
-var lapp = {
+var lyricapp = {
+    directory: "/Users/stevemansour/Documents/src/js/aegen/lyricvid",
     songTitle: "Living Life",
     introDuration: 5,           // seconds
     songDuration: 3*60 + 47,    // seconds
-    lyricStart: 7,              // seconds - starts at 0:07
-    lyricStop: 3*60 + 40,       // seconds - stops at 3:40
+    lyricStart: 7,              // seconds
+    lyricStop: 3*60 + 40,       // seconds
 };
-
 fontList = [
 	"ACaslonPro-Bold",
 	"ACaslonPro-BoldItalic",
@@ -1201,8 +1200,6 @@ function createSong() {
             "One more time",
             "Livin' Life",
         ],
-        // set the solo start & stop times in seconds.  These are just
-        // areas of the song where there are no vocals.
         solos: [
             { start: 0*60 + 55, stop: 1*60 +  4 },
             // { start: 1*60 + 21, stop: 1*60 + 28 },
@@ -1210,7 +1207,7 @@ function createSong() {
             // { start: 2*60 + 38, stop: 2*60 + 40 },
             { start: 2*60 + 45, stop: 3*60 +  6 },
         ],
-    };
+};
     return song;
 }
 
@@ -1238,7 +1235,7 @@ function setupTextDocument(tdoc) {
 //   the video time for where this solo begins...
 //-----------------------------------------------------------------------------
 function soloStartTime(song,n) {
-    return lapp.introDuration + song.solos[n].start;
+    return lyricapp.introDuration + song.solos[n].start;
 }
 
 // INPUT
@@ -1248,11 +1245,11 @@ function soloStartTime(song,n) {
 //   the video time for where this solo ends...
 //-----------------------------------------------------------------------------
 function soloStopTime(song,n) {
-    return lapp.introDuration + song.solos[n].stop;
+    return lyricapp.introDuration + song.solos[n].stop;
 }
 
 function buildLyricVid() {
-    // var comp = lapp.comp;
+    // var comp = lyricapp.comp;
     var song = createSong();   // load lyrics, set times where lyrics are excluded
     var i;
 
@@ -1260,7 +1257,7 @@ function buildLyricVid() {
     // Step 1.  When does first vocal start, when does the last vocal stop.
     //          This forms the initial lyric time.
     //-----------------------------------------------------------------------
-    var lyricDuration = lapp.lyricStop - lapp.lyricStart;
+    var lyricDuration = lyricapp.lyricStop - lyricapp.lyricStart;
 
     //-----------------------------------------------------------------------
     // Next, how much time is taken is taken up by solos...
@@ -1277,7 +1274,7 @@ function buildLyricVid() {
         lyricDuration -= song.solos[i].stop - song.solos[i].start;  // duration of this solo
     }
 
-    var inTime = lapp.lyricStart;  // First lyric line goes here
+    var inTime = lyricapp.lyricStart;  // First lyric line goes here
     var layer, tprop, tdoc;
 
     var proj = app.project;
@@ -1288,7 +1285,7 @@ function buildLyricVid() {
     // create new comp
     var compW = 1920;                   // comp width
     var compH = 1080;                   // comp height
-    var compL = lapp.songDuration;      // comp length (seconds)
+    var compL = lyricapp.songDuration;      // comp length (seconds)
     var compRate = 30;                  // comp frame rate
     var compBG = [48/255,63/255,84/255] // comp background color
 

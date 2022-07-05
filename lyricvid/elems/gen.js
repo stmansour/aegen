@@ -96,7 +96,7 @@ function setupTextDocument(tdoc) {
 //   the video time for where this solo begins...
 //-----------------------------------------------------------------------------
 function soloStartTime(song,n) {
-    return lapp.introDuration + song.solos[n].start;
+    return lyricapp.introDuration + song.solos[n].start;
 }
 
 // INPUT
@@ -106,22 +106,23 @@ function soloStartTime(song,n) {
 //   the video time for where this solo ends...
 //-----------------------------------------------------------------------------
 function soloStopTime(song,n) {
-    return lapp.introDuration + song.solos[n].stop;
+    return lyricapp.introDuration + song.solos[n].stop;
 }
 
 function buildLyricVid() {
-    var comp = lapp.comp;
-    var song = createSong();
+    // var comp = lyricapp.comp;
+    var song = createSong();   // load lyrics, set times where lyrics are excluded
     var i;
 
     //-----------------------------------------------------------------------
     // Step 1.  When does first vocal start, when does the last vocal stop.
     //          This forms the initial lyric time.
     //-----------------------------------------------------------------------
-    var lyricDuration = lapp.lyricStop - lapp.lyricStart;
+    var lyricDuration = lyricapp.lyricStop - lyricapp.lyricStart;
 
     //-----------------------------------------------------------------------
     // Next, how much time is taken is taken up by solos...
+    // The idea is to space the lines out evenly and dodge the solo areas
     //-----------------------------------------------------------------------
     var solotime = 0;
     var soloidx = -1;  // assume no solos
@@ -134,19 +135,37 @@ function buildLyricVid() {
         lyricDuration -= song.solos[i].stop - song.solos[i].start;  // duration of this solo
     }
 
-    var inTime = lapp.introDuration + lapp.lyricStart;
+    var inTime = lyricapp.lyricStart;  // First lyric line goes here
     var layer, tprop, tdoc;
+
     var proj = app.project;
-    var item = proj.item(1);
+    if(!proj) {
+        proj = app.newProject();
+    }
+
+    // create new comp
+    var compW = 1920;                   // comp width
+    var compH = 1080;                   // comp height
+    var compL = lyricapp.songDuration;      // comp length (seconds)
+    var compRate = 30;                  // comp frame rate
+    var compBG = [48/255,63/255,84/255] // comp background color
+
+    var myItemCollection = app.project.items;
+    var comp = myItemCollection.addComp('LyricVideo',compW,compH,1,compL,compRate);
+    comp.bgColor = compBG;
 
     //-----------------------------------------------------------------------
-    // For how long is each lyric is visible?  This is certainly not perfect,
-    // but it's a reasonable starting point.
+    // Compute how long is each lyric is visible.  This is approximated as the
+    // total time lyrics are sung divided by the number of lines of lyrics.
+    // This is certainly not perfect, but it's a reasonable starting point.
     //-----------------------------------------------------------------------
     var dt = lyricDuration / song.lyrics.length;
 
+    //-----------------------------------------------------------------------
+    // Now spin through each line of the song and add it
+    //-----------------------------------------------------------------------
     for (i = 0; i < song.lyrics.length; i++) {
-        layer = item.layers.addText(song.lyrics[i]);
+        layer = comp.layers.addText(song.lyrics[i]);
         tprop = layer.property("Source Text");
         tdoc = setupTextDocument(tprop.value);
         tprop.setValue(tdoc);
@@ -177,6 +196,5 @@ function mainscript() {
 }
 
 app.beginUndoGroup("Add Lyrics");
-    initapp();
     mainscript();
 app.endUndoGroup();
