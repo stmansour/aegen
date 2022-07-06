@@ -4,6 +4,7 @@
 function createSong() {
     var song = {
         lyrics: [],
+        title: "",
         solos: [
             { start: 0*60 + 55, stop: 1*60 +  4 },
             // { start: 1*60 + 21, stop: 1*60 + 28 },
@@ -28,6 +29,23 @@ function createSong() {
         text = lyricFile.readln();
         if (text == "") {
             text = "\r";
+        }
+        if (text[0] == '#') {
+            var as = text.split(":");   // #title:Song Title
+            if (as.length < 2) {
+                alert("Invalid directive in lyrics file: " + text);
+                return null;
+            }
+            var cmd = as[0];            // #title
+            var val = as[1];            // Song Title
+            switch(cmd) {
+                case "#title":
+                    song.title = val;
+                    break;
+                default:
+                    alert("unknown directive in lyrics file: " + cmd);
+                    break;
+            }
         }
         song.lyrics.push(text);
     }
@@ -125,6 +143,17 @@ function buildLyricVid() {
     // This is certainly not perfect, but it's a reasonable starting point.
     //-----------------------------------------------------------------------
     var dt = lyricDuration / song.lyrics.length;
+
+    //-----------------------------------------------------------------------
+    // Start with the title at the beginning for 2 seconds
+    //-----------------------------------------------------------------------
+    layer = comp.layers.addText(song.title);
+    tprop = layer.property("Source Text");
+    tdoc = setupTextDocument(tprop.value);
+    tprop.setValue(tdoc);
+    layer.inPoint = 0;
+    layer.outPoint = 2;
+
 
     //-----------------------------------------------------------------------
     // Now spin through each line of the song and add it
