@@ -46,8 +46,9 @@ function createSong() {
                     alert("unknown directive in lyrics file: " + cmd);
                     break;
             }
+        } else {
+            song.lyrics.push(text);
         }
-        song.lyrics.push(text);
     }
     lyricFile.close();
     return song;
@@ -145,14 +146,16 @@ function buildLyricVid() {
     var dt = lyricDuration / song.lyrics.length;
 
     //-----------------------------------------------------------------------
-    // Start with the title at the beginning for 2 seconds
+    // If title is present, show inspect at the beginning for 2 seconds
     //-----------------------------------------------------------------------
-    layer = comp.layers.addText(song.title);
-    tprop = layer.property("Source Text");
-    tdoc = setupTextDocument(tprop.value);
-    tprop.setValue(tdoc);
-    layer.inPoint = 0;
-    layer.outPoint = 2;
+    if (song.title.length > 0) {
+        layer = comp.layers.addText(song.title);
+        tprop = layer.property("Source Text");
+        tdoc = setupTextDocument(tprop.value);
+        tprop.setValue(tdoc);
+        layer.inPoint = 0;
+        layer.outPoint = 2;
+    }
 
 
     //-----------------------------------------------------------------------

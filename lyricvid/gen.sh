@@ -19,6 +19,12 @@ DESCRIPTION
     If the duration is not set and no audio file is specified, then a default
     duration of 200 seconds is used.
 
+    The lyric file should be a pure text file. Each line should be a line of
+    the lyrics.  Special directives can be made by making the first character
+    of the line a hash sign (#). Supported directives:
+
+        #title:Song Title
+
 USAGE
     gen.sh [OPTIONS] [lyricfile]
 
@@ -33,12 +39,16 @@ Examples
     This will generate an error as the lyric file is required.
 
     ./gen.sh -l lyrics.txt
-    Creates a lyric video for the lyrics in lyrics.txt
+    Creates a lyric video for the lyrics in lyrics.txt using the default time
+    of 200 seconds.
 
     ./gen.sh lyrics.txt
     Same as ./gen.sh -l lyrics.txt
 
-    .
+    ./gen.sh -l lyrics.txt -a LivingLife.mp3
+    Creates a lyric video for the lyrics in lyrics.txt and uses the duration of
+    the supplied video file rather than the default time of 200 sec.
+
 
 FEOF
 }
@@ -49,7 +59,6 @@ GenAppInfo() {
 var lyricapp = {
     directory: "${CWD}",
     lyricsfilename: "${LYRICFILE}",
-    songTitle: "Living Life",
     introDuration: 5,               // seconds
     songDuration: "${DURATION}",    // seconds
     lyricStart: 7,                  // seconds
