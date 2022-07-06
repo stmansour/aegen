@@ -1144,64 +1144,7 @@ fontList = [
 
 function createSong() {
     var song = {
-        lyrics: [
-            "and I'm thinking",
-            "'bout this caged-in life",
-            "can't help feeling",
-            "life has passed me by",
-            "I just don't understand",
-            "the point of it all sometimes",
-            "or the mouse in the trap",
-            "that struggles before it dies",
-            "so I'm calling",
-            "up my boys tonight",
-            "night is falling",
-            "so just one more time",
-            "I said Hey",
-            "gonna play tonight",
-            "Have a round, drink it down",
-            "and the next one's mine",
-            "Let's go out with a blast",
-            "and let's do it right",
-            "One more time",
-            "Livin' Life",
-            "Too much drinking",
-            "I hear nature's call",
-            "counting cracks in",
-            "this grimy bathroom wall",
-            "seeing double",
-            "don't think I should drive",
-            "I should stop now",
-            "while I can still count to five",
-            "But it's Hey, Hey, Hey",
-            "life's okay tonight",
-            "While we're here commandeer",
-            "all the hootch in sight",
-            "Let's go out with a blast",
-            "and let's do it right",
-            "One more time",
-            "Livin' Life",
-            "We're not as young as we used to be",
-            "but we're taking this chance",
-            "We're gonna make us some history",
-            "while there's still time to dance",
-            "d d d d d d dance!",
-            "I said Hey, Hey, Hey",
-            "and we play tonight",
-            "Coke and Crown, all around",
-            "but the bottom line",
-            "Is we're out with a blast",
-            "so let's do it right",
-            "One more time",
-            "Livin' Life",
-            "I said Hey tonight",
-            "Singing cheers while we're here",
-            "for just one more time",
-            "Let's go out with a blast",
-            "and let's do it right",
-            "One more time",
-            "Livin' Life",
-        ],
+        lyrics: [],
         solos: [
             { start: 0*60 + 55, stop: 1*60 +  4 },
             // { start: 1*60 + 21, stop: 1*60 + 28 },
@@ -1209,7 +1152,27 @@ function createSong() {
             // { start: 2*60 + 38, stop: 2*60 + 40 },
             { start: 2*60 + 45, stop: 3*60 +  6 },
         ],
-};
+    };
+
+    lyricFile = File(lyricapp.lyricsfilename);
+    if (lyricFile == null) {
+         alert("No text file selected.");
+         return null;
+     }
+    var fileOK = lyricFile.open("r");
+    if (!fileOK){
+        alert("File open failed!");
+        return null;
+    }
+    var text;
+    while (!lyricFile.eof) {
+        text = lyricFile.readln();
+        if (text == "") {
+            text = "\r";
+        }
+        song.lyrics.push(text);
+    }
+    lyricFile.close();
     return song;
 }
 
@@ -1251,9 +1214,11 @@ function soloStopTime(song,n) {
 }
 
 function buildLyricVid() {
-    // var comp = lyricapp.comp;
-    var song = createSong();   // load lyrics, set times where lyrics are excluded
     var i;
+    var song = createSong();   // load lyrics, set times where lyrics are excluded
+    if (song == null) {
+        return;
+    }
 
     //-----------------------------------------------------------------------
     // Step 1.  When does first vocal start, when does the last vocal stop.

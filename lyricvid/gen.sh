@@ -4,6 +4,7 @@ LOGFILE="log"
 COOKIES=
 OUTFILE="vidmaker.jsx"
 CWD=$(pwd)
+DURATION=200        # if no duration or audio is specified, assume 200 seconds
 
 Usage() {
     cat <<FEOF
@@ -15,14 +16,17 @@ DESCRIPTION
     and a text file containing the lyrics. It creates a file named
     ${OUTFILE}. Open Illustrator, then select File->Scripts->Other Script...
     then select ${OUTFILE}.  This will create a new video called LyricVid.
+    If the duration is not set and no audio file is specified, then a default
+    duration of 200 seconds is used.
 
 USAGE
     gen.sh [OPTIONS] [lyricfile]
 
     OPTIONS:
-    -l lyricfile
-
-    -u  Display this usage writeup.
+    -a audiofile    The audio file to use in the video
+    -d duration     The duration of the audio in seconds
+    -l lyricfile    The lyrics for this song
+    -u              Display this usage writeup.
 
 Examples
     ./gen.sh
@@ -34,23 +38,22 @@ Examples
     ./gen.sh lyrics.txt
     Same as ./gen.sh -l lyrics.txt
 
+    .
+
 FEOF
 }
 
-
-
 GenAppInfo() {
-
-cat >"${OUTFILE}" <<FEOF
+    cat >"${OUTFILE}" <<FEOF
 
 var lyricapp = {
     directory: "${CWD}",
     lyricsfilename: "${LYRICFILE}",
     songTitle: "Living Life",
-    introDuration: 5,           // seconds
-    songDuration: 3*60 + 47,    // seconds
-    lyricStart: 7,              // seconds
-    lyricStop: 3*60 + 40,       // seconds
+    introDuration: 5,               // seconds
+    songDuration: "${DURATION}",    // seconds
+    lyricStart: 7,                  // seconds
+    lyricStop: 3*60 + 40,           // seconds
 };
 FEOF
 
@@ -58,17 +61,33 @@ FEOF
 
 makeVid() {
     GenAppInfo
-    cat elems/fontlist.js elems/gen.js >> "${OUTFILE}"
+    cat ${SCRIPTPATH}/elems/fontlist.js ${SCRIPTPATH}/elems/gen.js >> "${OUTFILE}"
 }
 
 ###############################################################################
 ###############################################################################
 
 LYRICFILE=""
+AUDIOFILE=""
+PWD=$(pwd)
+echo "PWD = ${PWD}"
+SCRIPTPATH="$0"
 
-while getopts "l:u" o; do
+while getopts "a:d:l:u" o; do
 	# echo "o = ${o}"
 	case "${o}" in
+    a)  AUDIOFILE="${OPTARG}"
+        if [ ! -f "${AUDIOFILE}" ]; then
+            echo "file ${AUDIOFILE} does not exist"
+            exit 1;
+        fi
+        DURATION=$(afinfo "${AUDIOFILE}" | grep duration | sed 's/^[^:][^:]*://' | sed 's/ sec//' | sed 's/ //g')
+        echo "Audio file: ${AUDIOFILE}"
+        echo "Duration: ${DURATION} sec"
+        ;;
+    d)  DURATION="${OPTARG}"
+        echo "Duration: ${DURATION} sec"
+        ;;
     l)  LYRICFILE="${OPTARG}"
         ;;
     u)  Usage
@@ -105,6 +124,15 @@ case "${LYRICFILE}" in
     *)  # some sort of relative path...
         LYRICFILE="${CWD}/${LYRICFILE}"
         echo "Lyric file: ${LYRICFILE}"
+        ;;
+esac
+
+case "${SCRIPTPATH}" in
+    /*) echo "SCRIPTPATH = ${SCRIPTPATH}"
+        ;;
+    *)  SCRIPTPATH="${CWD}/${SCRIPTPATH}"
+        SCRIPTPATH=$(dirname "${SCRIPTPATH}")
+        echo "SCRIPTPATH = ${SCRIPTPATH}"
         ;;
 esac
 
