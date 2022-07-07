@@ -19,10 +19,11 @@ DESCRIPTION
     then select ${OUTFILE}.  This will create a new video called LyricVid.
     No audio file is required to create the video. If the audio file is
     available it is best to supply it using the -a option. This will allow
-    the correct duration of the video to be set. If the audio file is not
-    available but you know the duration of the song, you can supply it with
-    the -d option. If the duration is not set and no audio file is specified,
-    then a default duration of 200 seconds is used.
+    the correct duration of the video to be set. It will also add the audio
+    file to the composition. If the audio file is not available but you know
+    the duration of the song, you can supply it with the -d option. If the
+    duration is not set and no audio file is specified, then a default duration
+    of 200 seconds is used.
 
     The lyric file should be a pure text file. Each line should be a line of
     the lyrics.  Special directives can be made by making the first character
