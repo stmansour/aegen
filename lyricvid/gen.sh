@@ -5,6 +5,7 @@ COOKIES=
 OUTFILE="vidmaker.jsx"
 CWD=$(pwd)
 DURATION=200        # if no duration or audio is specified, assume 200 seconds
+SRCROOT="/Users/stevemansour/Documents/src/js/aegen/lyricvid"
 
 Usage() {
     cat <<FEOF
@@ -61,12 +62,16 @@ Examples
 FEOF
 }
 
+#  GenAppInfo writes the first part of the .jsx file. It includes the
+#  app object initilized.
+#------------------------------------------------------------------------------
 GenAppInfo() {
     cat >"${OUTFILE}" <<FEOF
 
 var lyricapp = {
     directory: "${CWD}",
-    lyricsfilename: "${LYRICFILE}",
+    lyricsFilename: "${LYRICFILE}",
+    audioFilename: "${AUDIOFILE}",
     compName: "(Official Lyric Video)",
     compWidth: 1920,
     compHeight: 1080,
@@ -81,7 +86,7 @@ FEOF
 
 makeVid() {
     GenAppInfo
-    cat ${SCRIPTPATH}/elems/fontlist.js ${SCRIPTPATH}/elems/gen.js >> "${OUTFILE}"
+    cat ${SRCROOT}/elems/fontlist.js ${SRCROOT}/elems/gen.js >> "${OUTFILE}"
 }
 
 ###############################################################################
@@ -135,25 +140,14 @@ if [ ! -f "${LYRICFILE}" ]; then
     exit 1
 fi
 #------------------------------------------------------
-# make the path to the lyric file absolute...
+# make the paths absolute...
 #------------------------------------------------------
-case "${LYRICFILE}" in
-    /*) # absolute path
-        echo "Lyric file: ${LYRICFILE}"
-        ;;
-    *)  # some sort of relative path...
+if [ "${LYRICFILE:0,1}" != "/" ]; then
         LYRICFILE="${CWD}/${LYRICFILE}"
-        echo "Lyric file: ${LYRICFILE}"
-        ;;
-esac
+fi
 
-case "${SCRIPTPATH}" in
-    /*) echo "SCRIPTPATH = ${SCRIPTPATH}"
-        ;;
-    *)  SCRIPTPATH="${CWD}/${SCRIPTPATH}"
-        SCRIPTPATH=$(dirname "${SCRIPTPATH}")
-        echo "SCRIPTPATH = ${SCRIPTPATH}"
-        ;;
-esac
+if [ "${AUDIOFILE:0,1}" != "/" ]; then
+        AUDIOFILE="${CWD}/${AUDIOFILE}"
+fi
 
 makeVid

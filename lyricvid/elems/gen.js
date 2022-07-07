@@ -14,7 +14,7 @@ function createSong() {
         ],
     };
 
-    lyricFile = File(lyricapp.lyricsfilename);
+    lyricFile = File(lyricapp.lyricsFilename);
     if (lyricFile == null) {
          alert("No text file selected.");
          return null;
@@ -145,7 +145,6 @@ function buildLyricVid() {
 
     var myItemCollection = app.project.items;
     var comp = myItemCollection.addComp(lyricapp.compName,compW,compH,1,compL,compRate);
-    comp.openInViewer();
     comp.bgColor = compBG;
 
     //-----------------------------------------------------------------------
@@ -166,7 +165,6 @@ function buildLyricVid() {
         layer.inPoint = 0;
         layer.outPoint = 2;
     }
-
 
     //-----------------------------------------------------------------------
     // Now spin through each line of the song and add it
@@ -196,6 +194,22 @@ function buildLyricVid() {
             }
         }
     }
+
+    //--------------------------------------------------------------------------
+    // Now add the song file if we have it...
+    // in the viewer while it's being built.
+    //--------------------------------------------------------------------------
+    if (lyricapp.audioFilename.length > 0) {
+        var importOpts = new ImportOptions(File(lyricapp.audioFilename));
+        var importMedia = app.project.importFile(importOpts);
+        var myMedia = comp.layers.add(importMedia); 
+    }
+
+    //--------------------------------------------------------------------------
+    // Now we can open the video in the viewer. It works faster if it's not
+    // in the viewer while it's being built.
+    //--------------------------------------------------------------------------
+    comp.openInViewer();
 }
 
 function mainscript() {
