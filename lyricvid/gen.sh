@@ -16,14 +16,23 @@ DESCRIPTION
     and a text file containing the lyrics. It creates a file named
     ${OUTFILE}. Open Illustrator, then select File->Scripts->Other Script...
     then select ${OUTFILE}.  This will create a new video called LyricVid.
-    If the duration is not set and no audio file is specified, then a default
-    duration of 200 seconds is used.
+    No audio file is required to create the video. If the audio file is
+    available it is best to supply it using the -a option. This will allow
+    the correct duration of the video to be set. If the audio file is not
+    available but you know the duration of the song, you can supply it with
+    the -d option. If the duration is not set and no audio file is specified,
+    then a default duration of 200 seconds is used.
 
     The lyric file should be a pure text file. Each line should be a line of
     the lyrics.  Special directives can be made by making the first character
-    of the line a hash sign (#). Supported directives:
+    of the line a hash sign (#). Supported directives are listed below along
+    with the default values:
 
-        #title:Song Title
+        #title:Lyric Video
+        #compName:(Official Lyric Video)
+        #compWidth:1920
+        #compHeight:1080
+
 
 USAGE
     gen.sh [OPTIONS] [lyricfile]
@@ -49,7 +58,6 @@ Examples
     Creates a lyric video for the lyrics in lyrics.txt and uses the duration of
     the supplied video file rather than the default time of 200 sec.
 
-
 FEOF
 }
 
@@ -59,6 +67,9 @@ GenAppInfo() {
 var lyricapp = {
     directory: "${CWD}",
     lyricsfilename: "${LYRICFILE}",
+    compName: "(Official Lyric Video)",
+    compWidth: 1920,
+    compHeight: 1080,
     introDuration: 5,               // seconds
     songDuration: "${DURATION}",    // seconds
     lyricStart: 7,                  // seconds

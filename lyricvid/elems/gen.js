@@ -42,6 +42,15 @@ function createSong() {
                 case "#title":
                     song.title = val;
                     break;
+                case "#compName":
+                    lyricapp.compName = val;
+                    break;
+                case "#compWidth":
+                    lyricapp.compWidth = parseInt(val);
+                    break;
+                case "#compHeight":
+                lyricapp.compHeight = parseInt(val);
+                    break;
                 default:
                     alert("unknown directive in lyrics file: " + cmd);
                     break;
@@ -135,7 +144,7 @@ function buildLyricVid() {
     var compBG = [48/255,63/255,84/255] // comp background color
 
     var myItemCollection = app.project.items;
-    var comp = myItemCollection.addComp('LyricVideo',compW,compH,1,compL,compRate);
+    var comp = myItemCollection.addComp(lyricapp.compName,compW,compH,1,compL,compRate);
     comp.bgColor = compBG;
 
     //-----------------------------------------------------------------------
