@@ -145,6 +145,7 @@ function buildLyricVid() {
 
     var myItemCollection = app.project.items;
     var comp = myItemCollection.addComp(lyricapp.compName,compW,compH,1,compL,compRate);
+    comp.openInViewer();
     comp.bgColor = compBG;
 
     //-----------------------------------------------------------------------
