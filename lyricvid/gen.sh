@@ -16,8 +16,9 @@ gen.sh
 DESCRIPTION
     gen.sh is a shell script to create an Adobe Illustrator script that
     produces a lyric video based on a song file (currently of type MP3)
-    and a text file containing the lyrics. It creates a file named
-    ${OUTFILE}. Open Illustrator, then select File->Scripts->Other Script...
+    and a text file containing the lyrics. It creates two files:
+    ${OUTFILE} and ${REGENFILE}. Open After Effects, then select
+    File->Scripts->Other Script...
     then select ${OUTFILE}.  This will create a new video called LyricVid.
     No audio file is required to create the video. If the audio file is
     available it is best to supply it using the -a option. This will allow
@@ -25,7 +26,10 @@ DESCRIPTION
     file to the composition. If the audio file is not available but you know
     the duration of the song, you can supply it with the -d option. If the
     duration is not set and no audio file is specified, then a default duration
-    of 200 seconds is used.
+    of 200 seconds is used. At this point you can move the text layers in the
+    timeline as needed to match the audio.  You save a file with the updated
+    timeline positions by executing ${REGENFILE}, described in more detail
+    below.
 
     The lyric file should be a pure text file. Each line should be a line of
     the lyrics.  Special directives can be made by making the first character
@@ -37,17 +41,24 @@ DESCRIPTION
         #compWidth:1920
         #compHeight:1080
 
-    This script can write a new lyric file with all the directives including
-    the inpoint and outpoint for each text layer.  This is a huge timesaver if
-    you want to start over or change some effects. In order for AE to write to
-    the filesystem you will need to set the preference for Scripting &
-    Expressions:  Allow Scripts to Write Files and Access the Network.  Also,
-    it writes carriage returns (\r) at the end of lines rather than the normal
-    linefeed (\n).  In order to use the file it generates in a standard text
-    editor you can use the command:
+    The following are also valid directives that do not have defaults:
 
-        tr '\r' '\n' < file1 >file2
+        #(inPoint,outPoint):lyric
 
+    This script ${REGENFILE} can write a new lyric file with all the
+    directives including the inpoint and outpoint for each text layer.
+    Essentially, it regenerates the lyric file with all the lyric lines
+    using the directive "#(inPoint,outPoint)".
+    This is a huge timesaver if you want to start over or change some effects.
+    The file it creates is named "output.txt".
+    In order for AE to write to the filesystem you will need to set the
+    preference for Scripting & Expressions:  Allow Scripts to Write Files and
+    Access the Network.  Also, on Mac OX X, it writes carriage returns (\r) at
+    the end of lines rather than the normal linefeed (\n). I was not able to
+    find a way to overwrite this behavior. In order to use the file it
+    generates in a standard text editor you can use the command like this:
+
+        tr '\r' '\n' <output.txt >newlyrics.txt
 
 
 USAGE
