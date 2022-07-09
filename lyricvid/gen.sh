@@ -3,6 +3,8 @@
 LOGFILE="log"
 COOKIES=
 OUTFILE="vidmaker.jsx"
+REGENFILE="regen.jsx"
+TMPINFOFILE="qqzzff"
 CWD=$(pwd)
 DURATION=200        # if no duration or audio is specified, assume 200 seconds
 SRCROOT="/Users/stevemansour/Documents/src/js/aegen/lyricvid"
@@ -34,6 +36,18 @@ DESCRIPTION
         #compName:(Official Lyric Video)
         #compWidth:1920
         #compHeight:1080
+
+    This script can write a new lyric file with all the directives including
+    the inpoint and outpoint for each text layer.  This is a huge timesaver if
+    you want to start over or change some effects. In order for AE to write to
+    the filesystem you will need to set the preference for Scripting &
+    Expressions:  Allow Scripts to Write Files and Access the Network.  Also,
+    it writes carriage returns (\r) at the end of lines rather than the normal
+    linefeed (\n).  In order to use the file it generates in a standard text
+    editor you can use the command:
+
+        tr '\r' '\n' < file1 >file2
+
 
 
 USAGE
@@ -67,12 +81,13 @@ FEOF
 #  app object initilized.
 #------------------------------------------------------------------------------
 GenAppInfo() {
-    cat >"${OUTFILE}" <<FEOF
+    cat >"${TMPINFOFILE}" <<FEOF
 
 var lyricapp = {
     directory: "${CWD}",
     lyricsFilename: "${LYRICFILE}",
     audioFilename: "${AUDIOFILE}",
+    writeFilename: "${CWD}/output.txt",
     compName: "(Official Lyric Video)",
     compWidth: 1920,
     compHeight: 1080,
@@ -85,9 +100,11 @@ FEOF
 
 }
 
-makeVid() {
+generateVideoMakerScripts() {
     GenAppInfo
-    cat ${SRCROOT}/elems/fontlist.js ${SRCROOT}/elems/gen.js >> "${OUTFILE}"
+    cat "${TMPINFOFILE}" ${SRCROOT}/elems/fontlist.js ${SRCROOT}/elems/gen.js > "${OUTFILE}"
+    cat "${TMPINFOFILE}" ${SRCROOT}/elems/regen.js > "${REGENFILE}"
+    rm "${TMPINFOFILE}"
 }
 
 ###############################################################################
@@ -151,4 +168,4 @@ if [ "${AUDIOFILE:0,1}" != "/" ]; then
         AUDIOFILE="${CWD}/${AUDIOFILE}"
 fi
 
-makeVid
+generateVideoMakerScripts

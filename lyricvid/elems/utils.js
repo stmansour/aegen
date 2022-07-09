@@ -18,17 +18,3 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     }
     return s.join(dec);
 }
-
-// var file = "C:/Users/jamesc/video.mp4";
-function importFootage(file) {
-    var myComp = app.project.activeItem; // your opened composition
-    if (!myComp || !(myComp instanceof CompItem)) {
-        alert("Please, open composition");
-        return false;
-    }
-    app.beginUndoGroup("Import file");
-    var importOpts = new ImportOptions(File(file));
-    var importFootage = app.project.importFile(importOpts);
-    var myFootage = myComp.layers.add(importFootage); // add footage to your composition
-    app.endUndoGroup();
-};

@@ -25,7 +25,10 @@ function createSong() {
         return null;
     }
     var text;
+    var sinfo;
+
     while (!lyricFile.eof) {
+        sinfo = "";
         text = lyricFile.readln();
         if (text == "") {
             text = "\r";
@@ -38,6 +41,11 @@ function createSong() {
             }
             var cmd = as[0];            // #title
             var val = as[1];            // Song Title
+            if (text[1] == '(') {
+                sinfo = cmd.substr(2,cmd.length-3);
+                cmd = "#place"
+            }
+            var pts;
             switch(cmd) {
                 case "#title":
                     song.title = val;
@@ -49,14 +57,24 @@ function createSong() {
                     lyricapp.compWidth = parseInt(val);
                     break;
                 case "#compHeight":
-                lyricapp.compHeight = parseInt(val);
+                    lyricapp.compHeight = parseInt(val);
+                    break;
+                case "#place":
+                    pts = sinfo.split(",");
+                    var info = {
+                        inPoint: parseFloat(pts[0]),
+                        outPoint: parseFloat(pts[1]),
+                        text: val,
+                    };
+                    song.lyrics.push(info);
+                    //alert("inPoint: " + info.inPoint + "\noutPoint: " + info.outPoint + "\nlyric: "+val);
                     break;
                 default:
                     alert("unknown directive in lyrics file: " + cmd);
                     break;
             }
         } else {
-            song.lyrics.push(text);
+            song.lyrics.push({inPoint: -1, outPoint: -1, text: text});
         }
     }
     lyricFile.close();
@@ -170,13 +188,19 @@ function buildLyricVid() {
     // Now spin through each line of the song and add it
     //-----------------------------------------------------------------------
     for (i = 0; i < song.lyrics.length; i++) {
-        layer = comp.layers.addText(song.lyrics[i]);
+        layer = comp.layers.addText(song.lyrics[i].text);
         tprop = layer.property("Source Text");
         tdoc = setupTextDocument(tprop.value);
         tprop.setValue(tdoc);
-        layer.inPoint = inTime;
-        inTime += dt;
-        layer.outPoint = inTime;
+        if (song.lyrics[i].inPoint >= 0) {
+            layer.inPoint = song.lyrics[i].inPoint;
+            layer.outPoint = song.lyrics[i].outPoint;
+            inTime += dt;
+        } else {
+            layer.inPoint = inTime;
+            inTime += dt;
+            layer.outPoint = inTime;
+        }
 
         //------------------------------------------------------------------
         // Quck check to see if we've moved into any of the solo spaces.
@@ -202,7 +226,7 @@ function buildLyricVid() {
     if (lyricapp.audioFilename.length > 0) {
         var importOpts = new ImportOptions(File(lyricapp.audioFilename));
         var importMedia = app.project.importFile(importOpts);
-        var myMedia = comp.layers.add(importMedia); 
+        var myMedia = comp.layers.add(importMedia);
     }
 
     //--------------------------------------------------------------------------
@@ -216,6 +240,6 @@ function mainscript() {
     buildLyricVid();
 }
 
-app.beginUndoGroup("Add Lyrics");
+app.beginUndoGroup("Regenerate Lyrics");
     mainscript();
 app.endUndoGroup();
