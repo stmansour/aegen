@@ -14,7 +14,7 @@ Usage() {
 gen.sh
 
 DESCRIPTION
-    gen.sh is a shell script to create an Adobe Illustrator script that
+    gen.sh is a shell script to create an Adobe After Effects script that
     produces a lyric video based on a song file (currently of type MP3)
     and a text file containing the lyrics. It creates two files:
     ${OUTFILE} and ${REGENFILE}. Open After Effects, then select

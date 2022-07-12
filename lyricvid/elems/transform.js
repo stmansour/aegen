@@ -25,3 +25,27 @@ function fadeOut(layer,len) {
     layer.opacity.setValueAtTime(layer.outPoint,0);
     layer.opacity.setValueAtTime(layer.outPoint - len,100);
 }
+
+// fadeInOut - for the supplied layer, do a fadein and fadeout for len seconds
+//------------------------------------------------------------------------------
+function fadeInOut(layer,len) {
+    removeOpacityKeyframes(layer);
+    fadeIn(layer,len);
+    fadeOut(layer,len);
+}
+
+// fadeText - fade all text layers in and out by the amount specified.
+//  INPUTS
+//  comp - the composition
+//  len  - length of time in seconds for the fades.  Example: 0.25
+//
+//------------------------------------------------------------------------------
+function fadeText(comp,len) {
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        fadeInOut(layer,len);
+    }
+}

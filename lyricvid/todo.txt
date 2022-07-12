@@ -3,4 +3,4 @@ To Do List
 2. Generate a fontList
 7. Support for exclude time ... this should replace everything about "intro"
    and solo.
-8. Write updated lyric file with in/out points for each line
+10. Add a routine to fade in/out each text clip
