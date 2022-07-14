@@ -61,6 +61,7 @@ function effectsMain(comp,len) {
     // Customize here
     //---------------------
     fadeText(comp,0.25);
+    changeTextFonts(comp,fontList[ randomIntInterval(0,fontList.length) ]);
 }
 
 app.beginUndoGroup("addeffects");
@@ -72,7 +73,7 @@ FEOF
 }
 generateEffectsScript() {
     genAppInfo
-    cat "${TMPINFOFILE}" ${SRCROOT}/elems/fontlist.js ${SRCROOT}/elems/transform.js > "${OUTFILE}"
+    cat "${TMPINFOFILE}" ${SRCROOT}/elems/utils.js ${SRCROOT}/elems/fontlist.js ${SRCROOT}/elems/transform.js > "${OUTFILE}"
     rm -f "${TMPINFOFILE}"
     finishEffectsScript
 }

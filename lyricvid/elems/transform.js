@@ -38,7 +38,6 @@ function fadeInOut(layer,len) {
 //  INPUTS
 //  comp - the composition
 //  len  - length of time in seconds for the fades.  Example: 0.25
-//
 //------------------------------------------------------------------------------
 function fadeText(comp,len) {
     for (var i = 1; i <= comp.numLayers; i++ ) {
@@ -47,5 +46,32 @@ function fadeText(comp,len) {
             continue; // skip it
         }
         fadeInOut(layer,len);
+    }
+}
+
+// changeTextFont - changeAll text fonts to the supplied
+//  INPUTS
+//  comp - the composition
+//  fstr  - font name string
+//------------------------------------------------------------------------------
+function changeTextFont(layer,fstr) {
+    var textProp = layer.property("Source Text");
+    var textDocument = textProp.value;
+    textDocument.font = fstr;
+    textProp.setValue(textDocument);
+}
+
+// changeTextFonts - changeAll text fonts to the supplied
+//  INPUTS
+//  comp - the composition
+//  fstr  - font name string
+//------------------------------------------------------------------------------
+function changeTextFonts(comp,fstr) {
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        changeTextFont(layer,fstr);
     }
 }

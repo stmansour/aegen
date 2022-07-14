@@ -18,3 +18,11 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     }
     return s.join(dec);
 }
+
+// return a random integer between min and max.  Example, if called as
+// randomIntInterval(7,10)
+// the return value will be one of:  7,8,9,10
+//------------------------------------------------------------------------------
+function randomIntInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
