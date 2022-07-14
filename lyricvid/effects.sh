@@ -61,7 +61,7 @@ function effectsMain(comp,len) {
     // Customize here
     //---------------------
     fadeText(comp,0.25);
-    changeTextFonts(comp,fontList[ randomIntInterval(0,fontList.length) ]);
+    changeTextFonts(comp,fontList[ randomIntInterval(0,fontList.length-1) ]);
 }
 
 app.beginUndoGroup("addeffects");

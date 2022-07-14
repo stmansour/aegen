@@ -127,7 +127,7 @@ PWD=$(pwd)
 echo "PWD = ${PWD}"
 SCRIPTPATH="$0"
 
-while getopts "a:d:l:u" o; do
+while getopts "a:d:l:uh" o; do
 	# echo "o = ${o}"
 	case "${o}" in
     a)  AUDIOFILE="${OPTARG}"
@@ -144,7 +144,7 @@ while getopts "a:d:l:u" o; do
         ;;
     l)  LYRICFILE="${OPTARG}"
         ;;
-    u)  Usage
+    u|h)  Usage
         exit 0
         ;;
     *)  echo "Unrecognized option:  ${o}"
