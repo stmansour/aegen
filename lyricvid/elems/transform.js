@@ -1,7 +1,6 @@
 // code that works on layer transform properties
 
-// fadeIn - for the supplied layer, do a fade in for len seconds by varying its
-//          opacity from 0 at its inPoint to 100 at inPoint + len
+// removeOpacityKeyframes - remove any opacity keyframes from the supplied layer.
 //------------------------------------------------------------------------------
 function removeOpacityKeyframes(layer) {
     var opacity = layer.opacity;
@@ -73,5 +72,46 @@ function changeTextFonts(comp,fstr) {
             continue; // skip it
         }
         changeTextFont(layer,fstr);
+    }
+}
+
+// removeRotationKeyframes - remove any opacity keyframes from the supplied
+//      layer.
+//------------------------------------------------------------------------------
+function removeRotationKeyframes(layer) {
+    var rotation = layer.rotation;
+    for (var i = rotation.numKeys; i > 0; i--) {
+        rotation.removeKey(i);
+    }
+}
+
+// rotateTextFromTo - rotate text from ang1 to ang2 in dur time.  It starts the
+//      rotation at time 0, and ends at dur.  It will remove all rotation
+//      keyframes before making its changes.
+//
+//  INPUTS
+//  layer - the text layer to modify
+//  ang1  - start angle in degrees
+//  ang2  - ending angle in degrees
+//  dur   - amount of time to rotate from ang1 to ang2
+//------------------------------------------------------------------------------
+function rotateTextFromTo(layer,ang1,ang2,dur) {
+    removeRotationKeyframes(layer);
+    layer.rotation.setValueAtTime(layer.inPoint,ang1);
+    layer.rotation.setValueAtTime(layer.inPoint+dur,ang2);
+}
+
+// rotateAllTextFromTo - changeAll text fonts to the supplied
+//  INPUTS
+//  comp - the composition
+//  fstr  - font name string
+//------------------------------------------------------------------------------
+function rotateAllTextFromTo(comp,ang1,ang2,dur) {
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        rotateTextFromTo(layer,ang1,ang2,dur);
     }
 }
