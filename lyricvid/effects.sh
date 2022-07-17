@@ -62,6 +62,9 @@ function effectsMain(comp,len) {
     //---------------------
     fadeText(comp,0.25);
     changeTextFonts(comp,fontList[ randomIntInterval(0,fontList.length-1) ]);
+    // setAllTextAnchorPoints(comp,"CL"); // center-left
+    // rotateAllTextFromTo(comp,-35,0,.4);
+
 }
 
 app.beginUndoGroup("addeffects");
