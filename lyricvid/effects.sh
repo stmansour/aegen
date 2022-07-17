@@ -62,7 +62,7 @@ function effectsMain(comp,len) {
     //---------------------
     fadeText(comp,0.25);
     changeTextFonts(comp,fontList[ randomIntInterval(0,fontList.length-1) ]);
-    // setAllTextAnchorPoints(comp,"CL"); // center-left
+    // setAllTextAnchorPoints(comp,"RANDOM"); // a random anchor point for each
     // rotateAllTextFromTo(comp,-35,0,.4);
 
 }

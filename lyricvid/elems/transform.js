@@ -207,13 +207,25 @@ function setAnchorPoint(layer,ap) {
 // setAllTextAnchorPoints - changeAll text anchor points based on the supplied
 //  INPUTS
 //  comp - the composition
-//  ap  - font name string
+//  ap   - anchor point code as defined in setAnchorPoint.  Additionally, one
+//         other value is accepted: "RANDOM" which will cause a random anchor
+//         point to be selected for each text layer.
 //------------------------------------------------------------------------------
 function setAllTextAnchorPoints(comp,ap) {
+    var anchors = ["UL","UC","UR","CL","CC","CR","LL","LC","LR"];
+    var max = anchors.length-1;
+    var random = false;
+    ap = ap.toUpperCase();
+    if (ap == "RANDOM") {
+        random = true;
+    }
     for (var i = 1; i <= comp.numLayers; i++ ) {
         layer = comp.layers[i];
         if (layer instanceof TextLayer == false ) {
             continue; // skip it
+        }
+        if (random) {
+            ap = anchors[randomIntInterval(0,max)];
         }
         setAnchorPoint(layer,ap);
     }

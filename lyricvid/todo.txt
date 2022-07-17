@@ -1,6 +1,9 @@
 To Do List
 
-2. Generate a fontList
-7. Support for exclude time ... this should replace everything about "intro"
-   and solo.
-10. Add a routine to fade in/out each text clip
+break up a line into individual words stacked vertically
+    * option to move the stack to any corner or center of the screen
+    * option to justify each word left, right, top, bottom, center
+
+Paint each word by its path
+
+hover rotation in 3-d
