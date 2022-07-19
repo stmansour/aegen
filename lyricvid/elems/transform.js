@@ -131,16 +131,16 @@ function rotateAllTextFromTo(comp,ang1,ang2,dur) {
 //  The position of the text when the anchor is (0,0) is at the LC position.
 //
 //  INPUTS:
-//      layer = layer to adjust anchorPoint
+//      lyr = layer to adjust anchorPoint
 //      ap    = "UL", "UC", ... "LR"
 //-----------------------------------------------------------------------------
-function setAnchorPoint(layer,ap) {
-    var bounds = layer.sourceRectAtTime(0,false);
-    var cap = layer.anchorPoint.value;
+function setAnchorPoint(lyr,ap) {
+    var bounds = lyr.sourceRectAtTime(0,false);
+    var cap = lyr.anchorPoint.value;
     var anchor;
     var w = bounds.width;
     var h = bounds.height;
-    var pos = layer.position.value;
+    var pos = lyr.position.value;
     var x = pos[0] - cap[0];
     var y = pos[1] - cap[1];  // the "normalized x,y" ... at the LC position for (0,0) anchor
 
@@ -200,8 +200,8 @@ function setAnchorPoint(layer,ap) {
     //     "--"
     // );
 
-    layer.anchorPoint.setValue(anchor);
-    layer.position.setValue(newpos);
+    lyr.anchorPoint.setValue(anchor);
+    lyr.position.setValue(newpos);
 }
 
 // setAllTextAnchorPoints - changeAll text anchor points based on the supplied
@@ -220,13 +220,13 @@ function setAllTextAnchorPoints(comp,ap) {
         random = true;
     }
     for (var i = 1; i <= comp.numLayers; i++ ) {
-        layer = comp.layers[i];
-        if (layer instanceof TextLayer == false ) {
+        var lyr = comp.layers[i];
+        if (lyr instanceof TextLayer == false ) {
             continue; // skip it
         }
         if (random) {
             ap = anchors[randomIntInterval(0,max)];
         }
-        setAnchorPoint(layer,ap);
+        setAnchorPoint(lyr,ap);
     }
 }
