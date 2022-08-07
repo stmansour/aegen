@@ -101,7 +101,7 @@ function rotateTextFromTo(layer,ang1,ang2,dur) {
     layer.rotation.setValueAtTime(layer.inPoint+dur,ang2);
 }
 
-// rotateAllTextFromTo - changeAll text fonts to the supplied
+// rotateAllTextFromTo - changeAll text fonts to the supplied.
 //  INPUTS
 //  comp - the composition
 //  fstr  - font name string
@@ -229,4 +229,21 @@ function setAllTextAnchorPoints(comp,ap) {
         }
         setAnchorPoint(lyr,ap);
     }
+}
+
+// set3D sets the layer's 3d flag to the value tf
+//
+//  INPUTS:
+//      layer = layer to adjust anchorPoint
+//      tf    = true if you want it to be a 3d layer, false otherwise.  If
+//              tf is not provide, or not boolean, then it will be set to true.
+//-----------------------------------------------------------------------------
+function set3D(lyr,tf) {
+    if (typeof tf == "undefined") {
+        tf = true;
+    }
+    if (typeof tf != "boolean") {
+        tf = true;
+    }
+    lyr.threeDLayer = tf;
 }

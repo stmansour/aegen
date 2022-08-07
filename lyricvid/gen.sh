@@ -68,6 +68,7 @@ USAGE
     -a audiofile    The audio file to use in the video
     -d duration     The duration of the audio in seconds
     -l lyricfile    The lyrics for this song
+    -s lyricstart   When the lyrics begin (seconds)
     -u              Display this usage writeup.
 
 Examples
@@ -81,9 +82,10 @@ Examples
     ./gen.sh lyrics.txt
     Same as ./gen.sh -l lyrics.txt
 
-    ./gen.sh -l lyrics.txt -a LivingLife.mp3
+    ./gen.sh -l lyrics.txt -a LivingLife.mp3 -s 7
     Creates a lyric video for the lyrics in lyrics.txt and uses the duration of
-    the supplied video file rather than the default time of 200 sec.
+    the supplied video file rather than the default time of 200 sec. The lyrics
+    begin 7 seconds into the song.
 
 FEOF
 }
@@ -102,10 +104,9 @@ var lyricapp = {
     compName: "(Official Lyric Video)",
     compWidth: 1920,
     compHeight: 1080,
-    introDuration: 5,               // seconds
-    songDuration: "${DURATION}",    // seconds
-    lyricStart: 7,                  // seconds
-    lyricStop: 3*60 + 40,           // seconds
+    songDuration: ${DURATION},    // seconds
+    lyricStart: ${LYRICSTART},    // seconds
+    lyricStop: ${DURATION},       // first guess, will be modified after lyric load
 };
 FEOF
 
@@ -123,11 +124,12 @@ generateVideoMakerScripts() {
 
 LYRICFILE=""
 AUDIOFILE=""
+LYRICSTART="0"
 PWD=$(pwd)
 echo "PWD = ${PWD}"
 SCRIPTPATH="$0"
 
-while getopts "a:d:l:uh" o; do
+while getopts "a:d:l:s:uh" o; do
 	# echo "o = ${o}"
 	case "${o}" in
     a)  AUDIOFILE="${OPTARG}"
@@ -141,6 +143,9 @@ while getopts "a:d:l:uh" o; do
         ;;
     d)  DURATION="${OPTARG}"
         echo "Duration: ${DURATION} sec"
+        ;;
+    s)  LYRICSTART="${OPTARG}"
+        echo "Lyrics start at: ${LYRICSTART} sec"
         ;;
     l)  LYRICFILE="${OPTARG}"
         ;;
@@ -175,8 +180,10 @@ if [ "${LYRICFILE:0,1}" != "/" ]; then
         LYRICFILE="${CWD}/${LYRICFILE}"
 fi
 
-if [ "${AUDIOFILE:0,1}" != "/" ]; then
+if [ "${AUDIOFILE}" != "" ]; then
+    if [ "${AUDIOFILE:0,1}" != "/" ]; then
         AUDIOFILE="${CWD}/${AUDIOFILE}"
+    fi
 fi
 
 generateVideoMakerScripts

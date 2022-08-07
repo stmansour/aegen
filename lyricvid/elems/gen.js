@@ -6,13 +6,14 @@ function createSong() {
         lyrics: [],
         title: "",
         solos: [
-            { start: 0*60 + 55, stop: 1*60 +  4 },
+            // { start: 0*60 + 55, stop: 1*60 +  4 },
             // { start: 1*60 + 21, stop: 1*60 + 28 },
             // { start: 2*60 + 19, stop: 2*60 + 22 },
             // { start: 2*60 + 38, stop: 2*60 + 40 },
-            { start: 2*60 + 45, stop: 3*60 +  6 },
+            // { start: 2*60 + 45, stop: 3*60 +  6 },
         ],
     };
+    var Debug=false;
 
     lyricFile = File(lyricapp.lyricsFilename);
     if (lyricFile == null) {
@@ -77,6 +78,16 @@ function createSong() {
             song.lyrics.push({inPoint: -1, outPoint: -1, text: text});
         }
     }
+
+    // DEBUG
+    if (Debug) {
+        var s="";
+        for (var i = 0; i < song.lyrics.length; i++) {
+            s += "in: " + song.lyrics[i].inPoint + ", out: " + song.lyrics[i].outPoint + ", " + song.lyrics[i].text + "\n";
+        }
+        alert(s);
+    }
+
     lyricFile.close();
     return song;
 }
@@ -105,7 +116,7 @@ function setupTextDocument(tdoc) {
 //   the video time for where this solo begins...
 //-----------------------------------------------------------------------------
 function soloStartTime(song,n) {
-    return lyricapp.introDuration + song.solos[n].start;
+    return song.solos[n].start;
 }
 
 // INPUT
@@ -115,7 +126,7 @@ function soloStartTime(song,n) {
 //   the video time for where this solo ends...
 //-----------------------------------------------------------------------------
 function soloStopTime(song,n) {
-    return lyricapp.introDuration + song.solos[n].stop;
+    return song.solos[n].stop;
 }
 
 function buildLyricVid() {
@@ -129,6 +140,9 @@ function buildLyricVid() {
     // Step 1.  When does first vocal start, when does the last vocal stop.
     //          This forms the initial lyric time.
     //-----------------------------------------------------------------------
+    if (song.lyrics.length > 0) {
+        lyricapp.lyricStop = lyricapp.songDuration -  lyricapp.songDuration/song.lyrics.length;
+    }
     var lyricDuration = lyricapp.lyricStop - lyricapp.lyricStart;
 
     //-----------------------------------------------------------------------
@@ -184,6 +198,12 @@ function buildLyricVid() {
         layer.outPoint = 2;
     }
 
+    alert(
+        "lyricDuration = " + lyricDuration + "\n" +
+        "inTime = " + inTime + "\n" +
+        "dt = " + dt + "\n"
+    );
+
     //-----------------------------------------------------------------------
     // Now spin through each line of the song and add it
     //-----------------------------------------------------------------------
@@ -192,11 +212,21 @@ function buildLyricVid() {
         tprop = layer.property("Source Text");
         tdoc = setupTextDocument(tprop.value);
         tprop.setValue(tdoc);
+        //-------------------------------------------------------------------
+        // If the lyric has placement information, use it. Otherwise use
+        // the current inTime
+        //-------------------------------------------------------------------
         if (song.lyrics[i].inPoint >= 0) {
+            //---------------------------------------------------------
+            // The lyric's time was set in the lyric file
+            //---------------------------------------------------------
             layer.inPoint = song.lyrics[i].inPoint;
             layer.outPoint = song.lyrics[i].outPoint;
             inTime += dt;
         } else {
+            //---------------------------------------------------------
+            // No time info for lyric, just use even distribution time
+            //---------------------------------------------------------
             layer.inPoint = inTime;
             inTime += dt;
             layer.outPoint = inTime;
