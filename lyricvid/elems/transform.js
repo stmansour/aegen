@@ -116,6 +116,63 @@ function rotateAllTextFromTo(comp,ang1,ang2,dur) {
     }
 }
 
+// setALLTextYCoord - changeAll text locations to the specified height
+//  INPUTS
+//  comp = composition
+//  y - the new y location
+//------------------------------------------------------------------------------
+function setALLTextYCoord(comp,y) {
+    var newpos = [];
+    var layer = null;
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        newpos = layer.position.value;  // [0] = x, [1] = y
+        newpos[1] = y;
+        layer.position.setValue(newpos);
+    }
+}
+
+// setEffectOnAllText - add the supplied effect to all text layers
+//  INPUTS
+//  comp = composition
+//  eff - the effect name
+//------------------------------------------------------------------------------
+function setEffectOnAllText(comp,eff) {
+    var newpos = [];
+    var layer = null;
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        var e = layer.Effects.addProperty(eff);
+
+    }
+}
+
+// setDropShadowOnAllText - add the supplied effect to all text layers
+//  INPUTS
+//  comp = composition
+//  eff - the effect name
+//------------------------------------------------------------------------------
+function setDropShadowOnAllText(comp) {
+    var newpos = [];
+    var layer = null;
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        var e = layer.Effects.addProperty("ADBE Drop Shadow");
+        // tweak a couple of properties...
+        e("Opacity").setValue(255);
+        e("Softness").setValue(14);
+    }
+}
+
 // setAnchorPoint sets the anchor point of a layer according to the following:
 //
 //                     UL  UC  UR
@@ -143,6 +200,8 @@ function setAnchorPoint(lyr,ap) {
     var pos = lyr.position.value;
     var x = pos[0] - cap[0];
     var y = pos[1] - cap[1];  // the "normalized x,y" ... at the LC position for (0,0) anchor
+    var anchor = [];
+    var newpos = [];
 
     if ( (typeof ap == "undefined") || (typeof ap != "string")){
         ap = "CC";
@@ -205,6 +264,8 @@ function setAnchorPoint(lyr,ap) {
 }
 
 // setAllTextAnchorPoints - changeAll text anchor points based on the supplied
+//         composition and new origin.
+//
 //  INPUTS
 //  comp - the composition
 //  ap   - anchor point code as defined in setAnchorPoint.  Additionally, one

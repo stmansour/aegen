@@ -198,11 +198,11 @@ function buildLyricVid() {
         layer.outPoint = 2;
     }
 
-    alert(
-        "lyricDuration = " + lyricDuration + "\n" +
-        "inTime = " + inTime + "\n" +
-        "dt = " + dt + "\n"
-    );
+    // alert(
+    //     "lyricDuration = " + lyricDuration + "\n" +
+    //     "inTime = " + inTime + "\n" +
+    //     "dt = " + dt + "\n"
+    // );
 
     //-----------------------------------------------------------------------
     // Now spin through each line of the song and add it
