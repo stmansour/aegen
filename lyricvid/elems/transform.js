@@ -75,6 +75,37 @@ function changeTextFonts(comp,fstr) {
     }
 }
 
+function changeTextFill(layer,r,g,b) {
+    var textProp = layer.property("Source Text");
+    var textDocument = textProp.value;
+    textDocument.fillColor = [r,g,b];
+    textProp.setValue(textDocument);
+}
+
+// changeTextFillColor - changeAll text fonts to the supplied
+//  INPUTS
+//  comp - the composition
+//  c    - rrggbb = hex string value for rgb, example "bb88cc"
+//------------------------------------------------------------------------------
+function changeAllTextFillColor(comp,c) {
+    if (typeof c != "string" & c.length != 6) {
+        alert("The color string value for changeTextFillColor is wrong: " + c + "\n" +
+            "It must be a 6 character hexadecimal string. For example:  FF45B7 or bb88cc");
+        return;
+    }
+    var r = parseInt(c.substr(0,2),16)/255.0;
+    var g = parseInt(c.substr(2,2),16)/255.0;
+    var b = parseInt(c.substr(4,2),16)/255.0;
+
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer == false ) {
+            continue; // skip it
+        }
+        changeTextFill(layer,r,g,b);
+    }
+}
+
 // removeRotationKeyframes - remove any opacity keyframes from the supplied
 //      layer.
 //------------------------------------------------------------------------------
