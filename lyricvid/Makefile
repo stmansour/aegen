@@ -1,2 +1,2 @@
 vidmaker:
-	cd elems; cat utils.js init.js plyr.js > ../stylize.jsx
+	cd elems; cat utils.js plyr.js > ../stylize.jsx
