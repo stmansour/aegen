@@ -12,13 +12,14 @@ function RebuildLyricFile() {
         return;
     }
 
-    var fw = File(lyricapp.writeFilename);
+    var fw = new File(lyricapp.writeFilename);
     if (fw == null) {
-         alert("No text file selected.");
-         return null;
-     }
-    fileOK = fw.open("w", "TEXT");
-    if (!fileOK){
+        alert("No text file selected.");
+        return null;
+    }
+    // fileOK = fw.open("w", "TEXT");
+    fileOK = fw.open("w");
+    if (!fileOK) {
         alert("File open for write failed!");
         return null;
     }
@@ -31,21 +32,37 @@ function RebuildLyricFile() {
     fw.writeln("#compHeight:" + lyricapp.compHeight);
     //------------------------------------------------------------------------------
     //  Process all TEXT in a composition...
+    //  Iterate through the layers in the composition
     //------------------------------------------------------------------------------
-    // var s = "#(inPoint,outPoint):text\n";
-    var s;
-    for (var j = 1; j <= comp.numLayers; j++) {
-        var layer = comp.layers[j];
-        if (layer instanceof TextLayer == false ) {
-            continue; // skip it
+    var textLayers = []; // an array to store the text layers in the order that they appear on the timeline
+
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        // Check if the layer is a text layer
+        if (layer.matchName == "ADBE Text Layer") {
+            // Add the text layer to the array
+            textLayers.push({ 
+                index: layer.index,
+                inPoint: layer.inPoint,
+                outPoint: layer.outPoint,
+                text: layer.text.sourceText.value });
         }
-        var textDoc = layer.text.sourceText.value;
-        var lyric = textDoc.text;
+    }
+
+    // Sort the text layers array by the index property
+    textLayers.sort(function (a, b) {
+        return b.index - a.index;
+    });
+
+    // Write the text of the text layers to the file
+    var s;
+    for (var i = 0; i < textLayers.length; i++) {
+        var layer = textLayers[i];
         s = "#(" +
             layer.inPoint + "," +
             layer.outPoint + "):" +
-            lyric + "\n";
-        fw.write(s);
+            layer.text.text;
+        fw.writeln(s);
     }
     fw.close();
 }
