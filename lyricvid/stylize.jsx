@@ -19,24 +19,12 @@ function number_format(number, decimals, dec_point, thousands_sep) {
     return s.join(dec);
 }
 
-var lapp = {
-    songTitle: "Living Life",
-    introDuration: 5,           // seconds
-    songDuration: 3*60 + 47,    // seconds
-    lyricStart: 7,              // seconds
-    lyricStop: 3*60 + 40,       // seconds
-    comp: app.project.activeItem,
-};
-
-function initapp() {
-    if (!(lapp.comp instanceof CompItem)) {
-        for (var i = 0; i < app.items.numItems; i++) {
-            if (app.items[i] instanceof CompItem) {
-                lapp.comp = app.items[i];
-                break;
-            }
-        }
-    }
+// return a random integer between min and max.  Example, if called as
+// randomIntInterval(7,10)
+// the return value will be one of:  7,8,9,10
+//------------------------------------------------------------------------------
+function randomIntInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 // zoomer - zooms in at the layer inPoint and zooms out at the outPoint

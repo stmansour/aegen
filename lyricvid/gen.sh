@@ -60,6 +60,13 @@ DESCRIPTION
 
         tr '\r' '\n' <output.txt >newlyrics.txt
 
+    Some files have proven to be problematic for tr.  I have written a
+    go program called "fixnl" that performs the same function.  It works when
+    tr fails. If it's available on your system you can use this commant
+    to fix things:
+
+    	fixnl output.txt >newlyrics.txt
+
 
 USAGE
     gen.sh [OPTIONS] [lyricfile]
