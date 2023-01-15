@@ -4,4 +4,16 @@ Creates a new comp named LyricVideo.  Running the script creates the comp and
 spreads the lyrics of the song over the length of the comp.  It can cut out
 blank areas (currently called solos).
 
+After positioning the text where it should be, run regen.jsx to create the
+file output.txt which contains the lyrics along with the inpoint and outpoint
+for each line.  This file does not contain newlines. Run "fixnl" to create
+a usable text file:
+
+	$ fixnl output.txt > newlyrics.txt
+
+Then update vidmaker.jsx to refer to newlyrics.txt as the lyric file.  Then
+you can rerun vidmaker.jsx to essentially start a new version of the lyric video.
+It will place the text in the right starting point and cut it off at the right
+end point.
+
 You can press undo after running the script to remove everything the script did.
