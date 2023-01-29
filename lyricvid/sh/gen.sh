@@ -3,22 +3,24 @@
 LOGFILE="log"
 COOKIES=
 OUTFILE="vidmaker.jsx"
-REGENFILE="regen.jsx"
+REGENFILE="rebuild-lyrics.jsx"
 TMPINFOFILE="qqzzff"
 CWD=$(pwd)
 DURATION=200        # if no duration or audio is specified, assume 200 seconds
-SRCROOT="/Users/stevemansour/Documents/src/js/aegen/lyricvid"
+SRCROOT=$(cd "$(dirname "$0")" && pwd)
 
 Usage() {
     cat <<FEOF
 gen.sh
 
 DESCRIPTION
-    gen.sh is a shell script to create an Adobe After Effects script that
-    produces a lyric video based on a song file (currently of type MP3)
+    gen.sh is a shell script that creates an Adobe After Effects script to
+    produce a lyric video based on a song file (currently of type MP3)
     and a text file containing the lyrics. It creates two files:
     ${OUTFILE} and ${REGENFILE}. Open After Effects, then select
+
     File->Scripts->Other Script...
+
     then select ${OUTFILE}.  This will create a new video called LyricVid.
     No audio file is required to create the video. If the audio file is
     available it is best to supply it using the -a option. This will allow
@@ -121,8 +123,8 @@ FEOF
 
 generateVideoMakerScripts() {
     GenAppInfo
-    cat "${TMPINFOFILE}" ${SRCROOT}/elems/fontlist.js ${SRCROOT}/elems/gen.js > "${OUTFILE}"
-    cat "${TMPINFOFILE}" ${SRCROOT}/elems/regen.js > "${REGENFILE}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${OUTFILE}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/regen.js" > "${REGENFILE}"
     rm "${TMPINFOFILE}"
 }
 
