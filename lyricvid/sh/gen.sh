@@ -60,14 +60,21 @@ DESCRIPTION
     find a way to overwrite this behavior. In order to use the file it
     generates in a standard text editor you can use the command like this:
 
-        tr '\r' '\n' <output.txt >newlyrics.txt
+        tr '\r' '\n' <output.txt >lyrics-pos.txt
 
     Some files have proven to be problematic for tr.  I have written a
     go program called "fixnl" that performs the same function.  It works when
     tr fails. If it's available on your system you can use this commant
     to fix things:
 
-    	fixnl output.txt >newlyrics.txt
+    	fixnl output.txt >lyrics-pos.txt
+
+    With the new lyrics file that includes position, you can rebuild
+    vidmaker.jsx to have it generate a new video where the lyrics show up at
+    the times specified in the lyric file:
+
+        gen.sh lyrics-pos.txt
+        (now run vidmaker.jsx in AE)
 
 
 USAGE
@@ -182,6 +189,7 @@ if [ ! -f "${LYRICFILE}" ]; then
     echo "${LYRICFILE} is not a file that can be processed as lyrics"
     exit 1
 fi
+
 #------------------------------------------------------
 # make the paths absolute...
 #------------------------------------------------------
