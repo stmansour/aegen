@@ -58,13 +58,17 @@ function stylizeVid() {
     //---------------------------------
     // Set the origin of each text
     //---------------------------------
-    // for (var i = 0; i < styler.textLayers.length; i++) {
-    //     var err = changeTextOrigin(textLayers[i], ORIGINHZ.CENTER, ORIGINVT.CENTER);
-    //     if (err != 0) {
-    //         alert("changeTextOrigin returned " + err);
-    //         break;
-    //     }
-    // }
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+            var err = changeTextOrigin(layer, ORIGINHZ.RIGHT, ORIGINVT.TOP);
+            if (err != 0) {
+                alert("changeTextOrigin returned " + err);
+                break;
+            }
+        }
+    }
 }
 
 app.beginUndoGroup("Sytlize Lyrics");

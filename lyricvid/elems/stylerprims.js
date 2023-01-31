@@ -83,17 +83,17 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
 
     if (hOrigin === ORIGINHZ.LEFT) {
         apx = -width/2;
-        dx = width/2;
+        dx = -width/2;
     } else if (hOrigin === ORIGINHZ.RIGHT) {
         apx = width/2;
-        dx = -width/2;
+        dx = width/2;
     }
 
     if (vOrigin === ORIGINVT.TOP) {
         apy = -height;
-        dy = height;
+        dy = -height;
     } else if (vOrigin === ORIGINVT.CENTER) {
-        apy = height / 2;
+        apy = -height / 2;
         dy = -height / 2;
     }
     textLayer.anchorPoint.setValue([apx, apy]);
