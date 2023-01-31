@@ -4,6 +4,7 @@ LOGFILE="log"
 COOKIES=
 OUTFILE="vidmaker.jsx"
 REGENFILE="rebuild-lyrics.jsx"
+STYLER="styler.jsx"
 TMPINFOFILE="qqzzff"
 CWD=$(pwd)
 DURATION=200        # if no duration or audio is specified, assume 200 seconds
@@ -128,11 +129,25 @@ FEOF
 
 }
 
-generateVideoMakerScripts() {
+GenConfigInfo() {
+
+    cat >"${STYLER}" <<FEOF
+var config = {
+    directory: "${CWD}",
+};
+FEOF
+
+    cat "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
+
+}
+
+
+GenerateVideoMakerScripts() {
     GenAppInfo
     cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${OUTFILE}"
     cat "${TMPINFOFILE}" "${SRCROOT}/regen.js" > "${REGENFILE}"
     rm "${TMPINFOFILE}"
+    GenConfigInfo
 }
 
 ###############################################################################
@@ -203,4 +218,4 @@ if [ "${AUDIOFILE}" != "" ]; then
     fi
 fi
 
-generateVideoMakerScripts
+GenerateVideoMakerScripts

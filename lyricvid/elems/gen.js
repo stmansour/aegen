@@ -15,7 +15,7 @@ function createSong() {
     };
     var Debug=false;
 
-    lyricFile = File(lyricapp.lyricsFilename);
+    var lyricFile = File(lyricapp.lyricsFilename);
     if (lyricFile == null) {
          alert("No text file selected.");
          return null;
@@ -44,7 +44,7 @@ function createSong() {
             var val = as[1];            // Song Title
             if (text[1] == '(') {
                 sinfo = cmd.substr(2,cmd.length-3);
-                cmd = "#place"
+                cmd = "#place";
             }
             var pts;
             switch(cmd) {
