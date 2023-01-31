@@ -55,6 +55,12 @@ function resetLayers() {
 function stylizeVid() {
     resetLayers(); // remove all previous stylings
 
+    //-------------------------------------------
+    // now is the time to change the font...
+    //-------------------------------------------
+    var randomFont = fontList[Math.floor(Math.random() * fontList.length)];
+    changeTextFonts(randomFont);
+
     //---------------------------------
     // Set the origin of each text
     //---------------------------------

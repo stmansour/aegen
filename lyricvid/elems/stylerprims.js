@@ -101,3 +101,29 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
 
     return 0;
 }
+
+// changeTextFont - changeAll text fonts to the supplied
+//  INPUTS
+//  comp - the composition
+//  fstr  - font name string
+//------------------------------------------------------------------------------
+function changeTextFont(layer,fstr) {
+    var textProp = layer.property("Source Text");
+    var textDocument = textProp.value;
+    textDocument.font = fstr;
+    textProp.setValue(textDocument);
+}
+
+// changeTextFonts - changeAll text fonts to the supplied
+//  INPUTS
+//  fstr  - font name string
+//------------------------------------------------------------------------------
+function changeTextFonts(fstr) {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++ ) {
+        layer = comp.layers[i];
+        if (layer instanceof TextLayer) {
+            changeTextFont(layer,fstr);
+        }
+    }
+}

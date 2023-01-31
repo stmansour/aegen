@@ -137,7 +137,7 @@ var config = {
 };
 FEOF
 
-    cat "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
+    cat "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
 
 }
 
