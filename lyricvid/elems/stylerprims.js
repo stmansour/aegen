@@ -27,7 +27,9 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
         alert("invalid: vOrigin = " + vOrigin);
         return 2;
     }
-
+    var position = textLayer.position;
+    var posx = textLayer.property("Position").value[0];
+    var posy = textLayer.property("Position").value[1];
     var bbox = textLayer.sourceRectAtTime(0, true);
 
     //----------------------------------------------------------------------------------------
@@ -40,44 +42,59 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
     var x = bbox.left;
     var y = bbox.top;
     var anchorPoint = textLayer.anchorPoint;
-    var position = textLayer.position;
-    var posx = textLayer.property("Position").value[0];
-    var posy = textLayer.property("Position").value[1];
+    var apx = anchorPoint.value[0];
+    var apy = anchorPoint.value[1];
+    var dx = 0, dy = 0;     // the amount to move the position of the text so that it stays in its original location
+
     var baseline = 0.9 * height;
     var descent = 0.1 * height;
 
-    if (typeof position[0] != "undefined") {
-        posx = position[0];
-        posy = position[1];
-        alert("text position found!  " + posx + "," + posy);
-    } else {
-        var comp = app.project.activeItem;
-        posx = comp.width/2;
-        posy = comp.height/2;
+    // var s = "text info:\n" +
+    //     "Position: " + posx + "," + posy + "\n" +
+    //     "Bounds:   left = " + x + " top = " + y + " width = " + width + " height = " + height + "\n" +
+    //     "Anchor:   " +  apx + "," + apy;
+    // alert(s);
+
+    //---------------------------------------------------------------
+    // first get the  anchor point back to 0,0 --> CENTER BOTTOM
+    //---------------------------------------------------------------
+    if (apx != 0 || apy != 0) {
+        if (apx != 0) {
+            dx = -apx;
+            apx = 0;
+        }
+        if (apy != 0) {
+            dy = -apy;
+            apy = 0;
+        }
+        posx += dx;
+        posy += dy;
+        textLayer.anchorPoint.setValue([apx, apy]);
+        textLayer.position.setValue([posx, posy]);
     }
 
-    var apx = 0, apy = 0;   // the amount to move the anchor point
-    var dx = 0, dy = 0;     // the amount to move the position of the text so that it stays in its original location
+    //---------------------------------------------------------------
+    // Now move the anchor point as requested...
+    //---------------------------------------------------------------
+    dx  = 0;
+    dy  = 0;
+    apx = 0;
+    apy = 0;   // the amount to move the anchor point
 
     if (hOrigin === ORIGINHZ.LEFT) {
         apx = -width/2;
-        dx = -width/2;
-    } else if (hOrigin === ORIGINHZ.CENTER) {
-        apx = 0;
+        dx = width/2;
     } else if (hOrigin === ORIGINHZ.RIGHT) {
         apx = width/2;
-        dx = width/2;
+        dx = -width/2;
     }
 
     if (vOrigin === ORIGINVT.TOP) {
         apy = -height;
-        dy = -height/2;
+        dy = height;
     } else if (vOrigin === ORIGINVT.CENTER) {
-        apy = descent - height / 2;
-        dy = 0;
-    } else if (vOrigin === ORIGINVT.BOTTOM) {
-        apy = 0;
-        dy = height/2;
+        apy = height / 2;
+        dy = -height / 2;
     }
     textLayer.anchorPoint.setValue([apx, apy]);
     textLayer.position.setValue([posx + dx, posy + dy]);
