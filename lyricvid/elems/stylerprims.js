@@ -1,3 +1,16 @@
+// Define global constants for origin positions
+var ORIGINHZ = {
+    LEFT: 'left',
+    CENTER: 'center',
+    RIGHT: 'right'
+};
+
+var ORIGINVT = {
+    TOP: 'top',
+    CENTER: 'center',
+    BOTTOM: 'bottom'
+};
+
 // changeTextOrigin - Moves the anchor point based on hOrigin and vOrigin.
 // You can move the horizontal origin to the left, center, or right side of the
 // string.  You can move the vertical origin to the top, center, or bottom.
@@ -114,16 +127,35 @@ function changeTextFont(layer,fstr) {
     textProp.setValue(textDocument);
 }
 
-// changeTextFonts - changeAll text fonts to the supplied
+// changeAllTextFonts - changeAll text fonts to the supplied
 //  INPUTS
 //  fstr  - font name string
 //------------------------------------------------------------------------------
-function changeTextFonts(fstr) {
+function changeAllTextFonts(fstr) {
     var comp = app.project.activeItem;
     for (var i = 1; i <= comp.numLayers; i++ ) {
         layer = comp.layers[i];
         if (layer instanceof TextLayer) {
             changeTextFont(layer,fstr);
+        }
+    }
+}
+
+// setTextAnchors - change all text anchors as follows
+//  INPUTS
+//  h - horizontal anchor {"left" | "center" "right"}
+//  v - vertical anchor {"top" | "center" | "bottom"}
+//------------------------------------------------------------------------------
+function setTextOrigins(h,v) {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+            var err = changeTextOrigin(layer, h, v);
+            if (err != 0) {
+                alert("changeTextOrigin returned " + err);
+                break;
+            }
         }
     }
 }

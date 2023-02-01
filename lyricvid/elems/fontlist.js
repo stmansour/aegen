@@ -23,8 +23,6 @@ fontList = [
 	"Blackriver-Bold",
 	"BridgevilleDemoRegular",
 	"Brilon-Regular",
-	"CapoonPERSONALUSE-Thin",
 	"CastlePressNo2",
-	"CCUpUpAndAway",
 	"Clearwerkkraftremix",
 ];

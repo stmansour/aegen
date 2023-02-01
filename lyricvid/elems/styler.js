@@ -1,15 +1,7 @@
-// Define global constants for origin positions
-var ORIGINHZ = {
-    LEFT: 'left',
-    CENTER: 'center',
-    RIGHT: 'right'
-};
-
-var ORIGINVT = {
-    TOP: 'top',
-    CENTER: 'center',
-    BOTTOM: 'bottom'
-};
+// Array of styler functions
+var styler_functions = [
+  stylerRandomFont,
+];
 
 /**
  * Removes all keyframes and other information added by a previous run of the program.
@@ -50,31 +42,21 @@ function resetLayers() {
             layer.position.setValue([x, y]);
         }
     }
+    changeAllTextFonts("Myriad-Roman");
 }
+
+
+function stylerRandomFont() {
+    var randomFont = fontList[Math.floor(Math.random() * fontList.length)];
+    changeAllTextFonts(randomFont);
+}
+
 
 function stylizeVid() {
     resetLayers(); // remove all previous stylings
 
-    //-------------------------------------------
-    // now is the time to change the font...
-    //-------------------------------------------
-    var randomFont = fontList[Math.floor(Math.random() * fontList.length)];
-    changeTextFonts(randomFont);
-
-    //---------------------------------
-    // Set the origin of each text
-    //---------------------------------
-    var comp = app.project.activeItem;
-    for (var i = 1; i <= comp.numLayers; i++) {
-        var layer = comp.layer(i);
-        if (layer instanceof TextLayer) {
-            var err = changeTextOrigin(layer, ORIGINHZ.RIGHT, ORIGINVT.TOP);
-            if (err != 0) {
-                alert("changeTextOrigin returned " + err);
-                break;
-            }
-        }
-    }
+    var fn = styler_functions[Math.floor(Math.random() * styler_functions.length)];
+    fn();
 }
 
 app.beginUndoGroup("Sytlize Lyrics");
