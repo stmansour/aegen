@@ -93,17 +93,17 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
     //---------------------------------------------------------------
     // Now move the anchor point as requested...
     //---------------------------------------------------------------
-    dx  = 0;
-    dy  = 0;
+    dx = 0;
+    dy = 0;
     apx = 0;
     apy = 0;   // the amount to move the anchor point
 
     if (hOrigin === ORIGINHZ.LEFT) {
-        apx = -width/2;
-        dx = -width/2;
+        apx = -width / 2;
+        dx = -width / 2;
     } else if (hOrigin === ORIGINHZ.RIGHT) {
-        apx = width/2;
-        dx = width/2;
+        apx = width / 2;
+        dx = width / 2;
     }
 
     if (vOrigin === ORIGINVT.TOP) {
@@ -124,7 +124,7 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
 //  comp - the composition
 //  fstr  - font name string
 //------------------------------------------------------------------------------
-function changeTextFont(layer,fstr) {
+function changeTextFont(layer, fstr) {
     var textProp = layer.property("Source Text");
     var textDocument = textProp.value;
     textDocument.font = fstr;
@@ -137,10 +137,10 @@ function changeTextFont(layer,fstr) {
 //------------------------------------------------------------------------------
 function changeAllTextFonts(fstr) {
     var comp = app.project.activeItem;
-    for (var i = 1; i <= comp.numLayers; i++ ) {
+    for (var i = 1; i <= comp.numLayers; i++) {
         layer = comp.layers[i];
         if (layer instanceof TextLayer) {
-            changeTextFont(layer,fstr);
+            changeTextFont(layer, fstr);
         }
     }
 }
@@ -150,7 +150,7 @@ function changeAllTextFonts(fstr) {
 //  h - horizontal anchor {"left" | "center" "right"}
 //  v - vertical anchor {"top" | "center" | "bottom"}
 //------------------------------------------------------------------------------
-function setTextAnchors(h,v) {
+function setTextAnchors(h, v) {
     var comp = app.project.activeItem;
     for (var i = 1; i <= comp.numLayers; i++) {
         var layer = comp.layer(i);
@@ -164,16 +164,36 @@ function setTextAnchors(h,v) {
     }
 }
 
+function fadeOutText(textLayer, t) {
+    textLayer.opacity.setValueAtTime(textLayer.outPoint - t, 100);
+    textLayer.opacity.setValueAtTime(textLayer.outPoint, 0);
+}
 
-// fadeOutAllText - change all text anchors as follows
-//  INPUTS
+function fadeInText(textLayer, t) {
+    textLayer.opacity.setValueAtTime(textLayer.inPoint, 0);
+    textLayer.opacity.setValueAtTime(textLayer.inPoint + t, 100);
+}
+
+// fadeOutAllText - fades out each textLayer in the current comp
 //------------------------------------------------------------------------------
-function fadeOutAllText(h,v) {
+function fadeOutAllText() {
     var comp = app.project.activeItem;
     for (var i = 1; i <= comp.numLayers; i++) {
         var layer = comp.layer(i);
         if (layer instanceof TextLayer) {
+            fadeOutText(layer,styler.fade_out_time);
+        }
+    }
+}
 
+// fadeInAllText - fades in each textLayer in the current comp
+//------------------------------------------------------------------------------
+function fadeInAllText() {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+            fadeOutText(layer,styler.fade_in_time);
         }
     }
 }

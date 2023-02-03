@@ -1,11 +1,13 @@
 // Array of styler functions
 var styler_functions = [
-  stylerRandomFont,
+    stylerRandomFont,
+    fadeInAllText,
+    fadeOutAllText
 ];
 
 var styler = {
-    fade_in_time: 0.5,
-    fade_out_time: 0.5,
+    fade_in_time: 0.25,
+    fade_out_time: 0.25,
     move_duration: 1,
     move_distance: 50
 };
@@ -20,7 +22,7 @@ var styler = {
 // RETURNS
 //   nothing at this time
 //------------------------------------------------------------------------------
-function resetProperty(layer,pName) {
+function resetProperty(layer, pName) {
     var prop = layer.property(pName);
 
     var nk = prop.numKeys;
@@ -61,7 +63,7 @@ function resetLayers() {
         if (layer instanceof TextLayer) {
 
             for (var j = 0; j < propList.length; j++) {
-                resetProperty(layer,propList[j]);
+                resetProperty(layer, propList[j]);
             }
 
             // check if the color property has keyframes
@@ -87,10 +89,49 @@ function stylerRandomFont() {
     changeAllTextFonts(randomFont);
 }
 
+function includes(array, element) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === element) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 function stylizeVid() {
+    var i, j;
     resetLayers(); // remove all previous stylings
-    var fn = styler_functions[Math.floor(Math.random() * styler_functions.length)];
-    fn();
+
+    var numFns = Math.floor(Math.random() * styler_functions.length) + 1;  // random number indicating the number of functions we're going to call in this style
+    var fns = [];
+    for (i = 0; i < numFns; i++) {
+        var done = false;
+        while (!done) {
+            var x = Math.floor(Math.random() * styler_functions.length); // random index to one of the stylers
+            if (!includes(fns, x)) {
+                done = true
+                fns[i] = x;
+            }
+        }
+    }
+
+    //------------------------------------------------------------------
+    // The styler is defined by the indeces of the individual stylers.
+    // We could dump this out if we want to save the style.
+    //------------------------------------------------------------------
+    var s = "";
+    for (i = 0; i < numFns; i++) {
+        s += styler_functions[fns[i]].name + "\n";
+    }
+    alert("Random Style:\n" + s);
+
+    //------------------------------------------------------------------
+    // Now let's call this reandomly generated styler...
+    //------------------------------------------------------------------
+    for (i = 0; i < numFns; i++) {
+        styler_functions[fns[i]]();
+    }
 }
 
 app.beginUndoGroup("Sytlize Lyrics");

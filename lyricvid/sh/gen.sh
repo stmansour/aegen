@@ -2,7 +2,7 @@
 
 LOGFILE="log"
 COOKIES=
-OUTFILE="vidmaker.jsx"
+VIDMAKER="vidmaker.jsx"
 REGENFILE="rebuild-lyrics.jsx"
 STYLER="styler.jsx"
 TMPINFOFILE="qqzzff"
@@ -18,11 +18,11 @@ DESCRIPTION
     gen.sh is a shell script that creates an Adobe After Effects script to
     produce a lyric video based on a song file (currently of type MP3)
     and a text file containing the lyrics. It creates two files:
-    ${OUTFILE} and ${REGENFILE}. Open After Effects, then select
+    ${VIDMAKER} and ${REGENFILE}. Open After Effects, then select
 
     File->Scripts->Other Script...
 
-    then select ${OUTFILE}.  This will create a new video called LyricVid.
+    then select ${VIDMAKER}.  This will create a new video called LyricVid.
     No audio file is required to create the video. If the audio file is
     available it is best to supply it using the -a option. This will allow
     the correct duration of the video to be set. It will also add the audio
@@ -144,7 +144,7 @@ FEOF
 
 GenerateVideoMakerScripts() {
     GenAppInfo
-    cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${OUTFILE}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${VIDMAKER}"
     cat "${TMPINFOFILE}" "${SRCROOT}/regen.js" > "${REGENFILE}"
     rm "${TMPINFOFILE}"
     GenConfigInfo
