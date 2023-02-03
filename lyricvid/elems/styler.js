@@ -98,17 +98,16 @@ function includes(array, element) {
     return false;
 }
 
-
-function stylizeVid() {
-    var i, j;
-    resetLayers(); // remove all previous stylings
-
+// randomStyler - picks a random number of stylers and calls them
+//---------------------------------------------------------------------
+function randomStyler() {
     var numFns = Math.floor(Math.random() * styler_functions.length) + 1;  // random number indicating the number of functions we're going to call in this style
     var fns = [];
     for (i = 0; i < numFns; i++) {
         var done = false;
         while (!done) {
             var x = Math.floor(Math.random() * styler_functions.length); // random index to one of the stylers
+            // don't include any styler more than once... at least for now
             if (!includes(fns, x)) {
                 done = true
                 fns[i] = x;
@@ -132,6 +131,12 @@ function stylizeVid() {
     for (i = 0; i < numFns; i++) {
         styler_functions[fns[i]]();
     }
+}
+
+function stylizeVid() {
+    var i, j;
+    resetLayers();   // remove all previous stylings
+    randomStyler();  // for now, just do a random styling
 }
 
 app.beginUndoGroup("Sytlize Lyrics");
