@@ -1,4 +1,8 @@
 // Define global constants for origin positions
+/*jshint esversion: 6 */
+
+// "use strict";
+
 var ORIGINHZ = {
     LEFT: 'left',
     CENTER: 'center',
@@ -146,7 +150,7 @@ function changeAllTextFonts(fstr) {
 //  h - horizontal anchor {"left" | "center" "right"}
 //  v - vertical anchor {"top" | "center" | "bottom"}
 //------------------------------------------------------------------------------
-function setTextOrigins(h,v) {
+function setTextAnchors(h,v) {
     var comp = app.project.activeItem;
     for (var i = 1; i <= comp.numLayers; i++) {
         var layer = comp.layer(i);
@@ -156,6 +160,20 @@ function setTextOrigins(h,v) {
                 alert("changeTextOrigin returned " + err);
                 break;
             }
+        }
+    }
+}
+
+
+// fadeOutAllText - change all text anchors as follows
+//  INPUTS
+//------------------------------------------------------------------------------
+function fadeOutAllText(h,v) {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+
         }
     }
 }
