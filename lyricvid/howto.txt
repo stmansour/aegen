@@ -19,4 +19,11 @@ end point.
 You can press undo after running the script to remove everything the script did.
 
 Use styler.jsx to stylize the video.  You can rerun it to strip the old stylization
-info and add new style info.
+info and add new style info.  It functions as follows:
+
+	1. Remove any existing styling (this does not move the text in the timeline).
+	2. Create a random new styling and apply it to all text strings
+
+Creating a new styling works as follows:
+
+	1. pick a random number of unique stylers

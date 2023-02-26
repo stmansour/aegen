@@ -137,7 +137,7 @@ var config = {
 };
 FEOF
 
-    cat "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
+    cat "${SRCROOT}/cpallete.js" "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
 
 }
 
@@ -190,6 +190,8 @@ while getopts "a:d:l:s:uh" o; do
     esac
 done
 shift $((OPTIND-1))
+
+echo "SRCROOT = ${SRCROOT}"
 
 if [ "${1}x" != "x" ]; then
     LYRICFILE="${1}"

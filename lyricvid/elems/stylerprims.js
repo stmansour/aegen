@@ -197,3 +197,48 @@ function fadeInAllText() {
         }
     }
 }
+
+// hexToColor - change an integer hex encoded color into a color array that
+//      AE can use.  The color is assumed to be encoded as follows:
+//
+//          0xRRGGBB
+//          0xff00ff   will produce a magenta purple
+//
+//  RETURNS
+//      the color array of normalized rgb values
+//------------------------------------------------------------------------------
+function hexToColor(color) {
+    var red = (color >> 16) & 0xFF;
+    var green = (color >> 8) & 0xFF;
+    var blue = color & 0xFF;
+
+    return [red / 255, green / 255, blue / 255];
+}
+
+// setTextColor - sets the supplied text to the supplied color.
+// 
+// INPUTS
+//   layer = the text layer
+//   color = rgb values encoded into an integer:  0xRRGGBB
+//           example:  0xff00ff
+//------------------------------------------------------------------------------
+function setTextColor(layer, color) {
+    var newColor = hexToColor(color);
+    var textProp = layer.property("Source Text");
+    var textDocument = textProp.value;
+    textDocument.fillColor = newColor;
+    textProp.setValue(textDocument);
+}
+
+// setAllTextColor - sets all text to the styler's FG color
+//------------------------------------------------------------------------------
+function setAllTextColor() {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+            setTextColor(layer, styler.themeFG)
+        }
+    }
+}
+

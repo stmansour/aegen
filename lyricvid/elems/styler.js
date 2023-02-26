@@ -9,7 +9,10 @@ var styler = {
     fade_in_time: 0.25,
     fade_out_time: 0.25,
     move_duration: 1,
-    move_distance: 50
+    move_distance: 50,
+    theme: [],
+    themeBG: 0,
+    themeFG: 0,
 };
 
 // resetProperty removes any keyframes from the supplied property and sets
@@ -101,13 +104,29 @@ function includes(array, element) {
 // randomStyler - picks a random number of stylers and calls them
 //---------------------------------------------------------------------
 function randomStyler() {
+    //--------------------------------------------------------------------
+    // Choose a color theme, then a background and foreground color...
+    //--------------------------------------------------------------------
+    var themeidx = Math.floor(Math.random() * CPallete.length);
+    styler.theme = CPallete[themeidx];
+    styler.themeBG = styler.theme[Math.floor(Math.random() * styler.theme.length)]
+    styler.themeFG = -1;
+    for (; styler.themeFG < 0 || styler.themeFG == styler.themeBG;) {
+        styler.themeFG = styler.theme[Math.floor(Math.random() * styler.theme.length)];
+    }
+
+    setBackgroundRectangle();
+
     var numFns = Math.floor(Math.random() * styler_functions.length) + 1;  // random number indicating the number of functions we're going to call in this style
     var fns = [];
     for (i = 0; i < numFns; i++) {
         var done = false;
         while (!done) {
             var x = Math.floor(Math.random() * styler_functions.length); // random index to one of the stylers
-            // don't include any styler more than once... at least for now
+            //-----------------------------------------------------
+            // Choose unique stylers... don't include any styler
+            // more than once... at least for now.
+            //-----------------------------------------------------
             if (!includes(fns, x)) {
                 done = true
                 fns[i] = x;
@@ -123,14 +142,15 @@ function randomStyler() {
     for (i = 0; i < numFns; i++) {
         s += styler_functions[fns[i]].name + "\n";
     }
-    alert("Random Style:\n" + s);
+    // alert("This unique random style consists of:\n" + s);
 
     //------------------------------------------------------------------
-    // Now let's call this reandomly generated styler...
+    // Now let's call this randomly generated styler...
     //------------------------------------------------------------------
     for (i = 0; i < numFns; i++) {
         styler_functions[fns[i]]();
     }
+    setAllTextColor();
 }
 
 function stylizeVid() {

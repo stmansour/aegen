@@ -51,8 +51,7 @@
 #(200.615006510417,201.766666666667):I know how you think
 #(201.75810546875,203.3):That man's at his best
 #(203.267838541667,204.866666666667):When he's fixing your sink
-#(204.877571614583,208.2):But who better to covet
-your gender and love it
+#(204.877571614583,208.2):But who better to covet your gender and love it
 #(208.187337239583,211.4):and protect you when you sleep	
 #(211.930403645833,214.666666666667):You've got me down on my knees
 #(214.940169270833,217.633333333333):You got me climbin' the trees
