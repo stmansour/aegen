@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Color Palette Viewer</title>
+  <style>
+    .color {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      margin-right: 10px;
+    }
+    .solution {
+      margin-top: 20px;
+      padding: 10px;
+    }
+    .next-btn {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cpallete-container"></div>
+
+  <script>
+var CPallete = [
+    [ 0x00a878, 0xd8f1a0, 0xf3c178, 0xfe5e41, 0x0b0500],
+    [ 0x01161e, 0x124559, 0x598392, 0xaec3b0, 0xeff6e0],
+    [ 0x3c1518, 0x69140e, 0xa44200, 0xd58936, 0xf2f3ae],
+    [ 0x04080f, 0x507dbc, 0xa1c6ea, 0xbbd1ea, 0xdae3e5],
+    [ 0x27213c, 0x5a352a, 0xa1c6ea, 0xa33b20, 0xa47963],
+    [ 0xef476f, 0xffd166, 0x06d6a0, 0x118ab2, 0x073b4c],
+    [ 0x5d576b, 0x8884ff, 0xd7bce8, 0xe8cee4, 0xfde2ff],
+    [ 0x9ba2ff, 0xa499be, 0x9e8576, 0x7a542e, 0x2a2e45],
+    [ 0xfff05a, 0xffd25a, 0xffaa5a, 0xff785a, 0x191919],
+    [ 0xa31621, 0xfcf7f8, 0xced3dc, 0x4e8098, 0x90c2e7],
+    [ 0x072ac8, 0x1e96fc, 0xa2d6f9, 0xfcf300, 0xffc600],
+    [ 0x9046cf, 0xcc59d2, 0xf487b6, 0xfff3f0, 0xfde12d],
+    [ 0x957186, 0xd9b8c4, 0x703d57, 0x402a2c, 0x241715],
+    [ 0x484041, 0x434371, 0x79aea3, 0x70ee9c, 0xb5f44a],
+    [ 0xbfd7ea, 0x91aec1, 0x508ca4, 0x0a8754, 0x004f2d],
+    [ 0xdf9a57, 0xfc7a57, 0xfcd757, 0xeefc57, 0x5e5b52],
+    [ 0x2d3142, 0x4f5d75, 0xbfc0c0, 0xffffff, 0xef8354],
+    [ 0x313628, 0x595358, 0x857f74, 0xa4ac96, 0xcadf9e],
+    [ 0xa1e8af, 0x94c595, 0x747c92, 0x372772, 0x3a2449],
+    [ 0xdcd6f7, 0xa6b1e1, 0xb4869f, 0x985f6f, 0x4e4c67],
+    [ 0xc9ddff, 0xecb0e1, 0xde6c83, 0xc1aac0, 0x2cf6b3],
+];
+
+    let currentIndex = 0;
+    let stopped = false;
+
+    function renderColorPalette(index) {
+      const cpallete = CPallete[index];
+
+      const container = document.getElementById('cpallete-container');
+      container.innerHTML = '';
+
+      for (let i = 0; i < cpallete.length; i++) {
+        const colorCode = cpallete[i];
+        const color = '#' + colorCode.toString(16).padStart(6, '0');
+
+        const colorDiv = document.createElement('div');
+        colorDiv.className = 'color';
+        colorDiv.style.backgroundColor = color;
+
+        const colorText = document.createElement('span');
+        colorText.textContent = color.toUpperCase();
+        colorDiv.appendChild(colorText);
+        container.appendChild(colorDiv);
+      }
+
+      const solution = findSolutionSet(cpallete);
+      const solutionDiv = document.createElement('div');
+      solutionDiv.className = 'solution';
+
+      const solutionColor = '#' + solution.color.toString(16).padStart(6, '0');
+      const textColor = '#' + solution.textColor.toString(16).padStart(6, '0');
+
+      const solutionText = document.createElement('span');
+      solutionText.innerHTML = 'Solution: <br> BG: 0x' + 
+          solution.color.toString(16).toUpperCase() + ',<br> FG: 0x' + 
+          solution.textColor.toString(16).toUpperCase() + ',<br> Contrast: ' +
+          solution.contrast.toFixed(2);
+      solutionText.style.color = textColor;
+
+      const solutionRect = document.createElement('div');
+      solutionRect.className = 'color';
+      solutionRect.style.backgroundColor = solutionColor;
+      solutionRect.appendChild(solutionText);
+
+      solutionDiv.appendChild(solutionRect);
+      container.appendChild(solutionDiv);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'next-btn';
+      nextBtn.textContent = 'Next';
+      nextBtn.addEventListener('click', onNextBtnClick);
+
+      const stopBtn = document.createElement('button');
+      stopBtn.textContent = 'Stop';
+      stopBtn.addEventListener('click', onStopBtnClick);
+
+      container.appendChild(nextBtn);
+      container.appendChild(stopBtn);
+    }
+
+    function findSolutionSet(cpallete) {
+      let maxContrast = -1;
+      let solution = {};
+
+      for (let i = 0; i < cpallete.length; i++) {
+        for (let j = i + 1; j < cpallete.length; j++) {
+          const color1 = cpallete[i];
+          const color2 = cpallete[j];
+
+          const contrast = computeContrast(color1, color2);
+
+          if (contrast > maxContrast) {
+            maxContrast = contrast;
+            solution = {
+              color: color1,
+              textColor: color2,
+              contrast: maxContrast,
+            };
+          }
+        }
+      }
+
+      return solution;
+    }
+
+    function computeContrast(color1, color2) {
+      const r1 = (color1 >> 16) & 0xff;
+      const g1 = (color1 >> 8) & 0xff;
+      const b1 = color1 & 0xff;
+
+      const r2 = (color2 >> 16) & 0xff;
+      const g2 = (color2 >> 8) & 0xff;
+      const b2 = color2 & 0xff;
+
+      const l1 = 0.2126 * r1 + 0.7152 * g1 + 0.0722 * b1;
+      const l2 = 0.2126 * r2 + 0.7152 * g2 + 0.0722 * b2;
+
+      const contrast = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+
+      return contrast;
+    }
+
+    function onNextBtnClick() {
+      if (stopped) {
+        return;
+      }
+
+      currentIndex++;
+
+      if (currentIndex >= CPallete.length) {
+        currentIndex = 0;
+      }
+
+      renderColorPalette(currentIndex);
+    }
+
+    function onStopBtnClick() {
+      stopped = true;
+    }
+
+    renderColorPalette(currentIndex);
+  </script>
+</body>
+
+</html>
+

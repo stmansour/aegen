@@ -5,6 +5,7 @@ COOKIES=
 VIDMAKER="vidmaker.jsx"
 REGENFILE="rebuild-lyrics.jsx"
 STYLER="styler.jsx"
+STYLEFILE="style.json"
 TMPINFOFILE="qqzzff"
 CWD=$(pwd)
 DURATION=200        # if no duration or audio is specified, assume 200 seconds
@@ -118,6 +119,8 @@ var lyricapp = {
     lyricsFilename: "${LYRICFILE}",
     audioFilename: "${AUDIOFILE}",
     writeFilename: "${CWD}/output.txt",
+    styleFilename: "${CWD}/${STYLEFILE}",
+    perfFilename: "${CWD}/perf.csv",
     compName: "(Official Lyric Video)",
     compWidth: 1920,
     compHeight: 1080,
@@ -129,25 +132,12 @@ FEOF
 
 }
 
-GenConfigInfo() {
-
-    cat >"${STYLER}" <<FEOF
-var config = {
-    directory: "${CWD}",
-};
-FEOF
-
-    cat "${SRCROOT}/cpallete.js" "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
-
-}
-
-
 GenerateVideoMakerScripts() {
     GenAppInfo
     cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${VIDMAKER}"
     cat "${TMPINFOFILE}" "${SRCROOT}/regen.js" > "${REGENFILE}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/cpallete.js" "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
     rm "${TMPINFOFILE}"
-    GenConfigInfo
 }
 
 ###############################################################################

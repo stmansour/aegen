@@ -1,4 +1,23 @@
 // Define global constants for origin positions
+//
+//      var textProp = myTextLayer.property("Source Text");
+//      var textDocument = textProp.value;
+//      myString = "Happy holidays!";
+//      textDocument.resetCharStyle();
+//      textDocument.fontSize = 60;
+//      textDocument.fillColor = [1, 0, 0];
+//      textDocument.strokeColor = [0, 1, 0];
+//      textDocument.strokeWidth = 2;
+//      textDocument.font = "Times New Roman PSMT";
+//      textDocument.strokeOverFill = true;
+//      textDocument.applyStroke = true;
+//      textDocument.applyFill = true;
+//      textDocument.text = myString;
+//      textDocument.justification = ParagraphJustification.CENTER_JUSTIFY;
+//      textDocument.tracking = 50;
+//      textProp.setValue(textDocument);
+//--------------------------------------------------------------------------
+
 /*jshint esversion: 6 */
 
 // "use strict";
@@ -122,25 +141,35 @@ function changeTextOrigin(textLayer, hOrigin, vOrigin) {
 // changeTextFont - changeAll text fonts to the supplied
 //  INPUTS
 //  comp - the composition
-//  fstr  - font name string
+//  fstr  - font name string, 
+//  size  - (optional) sets font size if >= 4, otherwise no change
+//  color - (optional) sets the color 
 //------------------------------------------------------------------------------
-function changeTextFont(layer, fstr) {
+function changeTextFont(layer, fstr, size, color) {
     var textProp = layer.property("Source Text");
     var textDocument = textProp.value;
     textDocument.font = fstr;
+    if (typeof size != "undefined" && size > 4) {
+        textDocument.fontSize = size;
+    }
+    if (typeof color != "undefined" ) {
+        textDocument.fillColor = color;
+    }
     textProp.setValue(textDocument);
 }
 
 // changeAllTextFonts - changeAll text fonts to the supplied
 //  INPUTS
 //  fstr  - font name string
+//  size  = point size for the font
+//  color = the 3 component normalized text color. Ex:  [1, .5, .3]
 //------------------------------------------------------------------------------
-function changeAllTextFonts(fstr) {
+function changeAllTextFonts(fstr,size,color) {
     var comp = app.project.activeItem;
     for (var i = 1; i <= comp.numLayers; i++) {
         layer = comp.layers[i];
         if (layer instanceof TextLayer) {
-            changeTextFont(layer, fstr);
+            changeTextFont(layer, fstr, size, color);
         }
     }
 }
@@ -238,6 +267,31 @@ function setAllTextColor() {
         var layer = comp.layer(i);
         if (layer instanceof TextLayer) {
             setTextColor(layer, styler.themeFG)
+        }
+    }
+}
+
+// setTextSize - sets the supplied text to the supplied font size.
+// 
+// INPUTS
+//   layer = the text layer
+//   size = font size for all text
+//------------------------------------------------------------------------------
+function setTextSize(layer, size) {
+    var textProp = layer.property("Source Text");
+    var textDocument = textProp.value;
+    textDocument.fontSize = size;
+    textProp.setValue(textDocument);
+}
+
+// setAllTextSize - sets all text to the styler's FG Size
+//------------------------------------------------------------------------------
+function setAllTextSize(size) {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+            setTextSize(layer, size)
         }
     }
 }

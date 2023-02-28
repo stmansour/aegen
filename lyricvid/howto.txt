@@ -26,4 +26,22 @@ info and add new style info.  It functions as follows:
 
 Creating a new styling works as follows:
 
-	1. pick a random number of unique stylers
+	1. pick a new FG and BG color from the palletes
+	2. set the background color to BG
+	3. select a random text font, reset all text to the new FG color and new font.
+	4. randomly pick some number of other stylers and apply them
+
+styler.jsx outputs
+	Every run of styler.jsx produces the following files.  Remember to run
+	fixnl on these output files.  For some reason, AfterEffects file writer does
+	not output newlines correctly.
+
+	style.json  =  a file where all the style info is dumped.  I will be adding
+	               a way to reuse the style.json files instead of generating new
+				   styles randomly.
+
+	perf.json   =  performance information for various places in the code. Keep
+	               an eye on this as more and more code gets added. Don't let
+				   the performance get too bad.
+
+

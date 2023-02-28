@@ -200,8 +200,6 @@ fontList = [
 	"GeezaPro",
 	"GeezaPro-Bold",
 	"Geneva",
-	"Gentona-ExtraBoldDEMO",
-	"Gentona-ExtraBoldItalicDEMO",
 	"Georgia",
 	"Georgia-Bold",
 	"Georgia-BoldItalic",
