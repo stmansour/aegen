@@ -101,6 +101,19 @@ function includes(array, element) {
     return false;
 }
 
+function createBackgroundRectangle() {
+	var comp = app.project.activeItem;
+
+	// Look for existing BGRect layer and delete it
+	var bgRectLayer = comp.layer("BGRect");
+	if (bgRectLayer) {
+		bgRectLayer.remove();
+	}
+	var newColor = hexToColor(styler.themeBG);
+	var newLayer = comp.layers.addSolid(newColor, "BGRect", comp.width, comp.height, comp.pixelAspect);
+	newLayer.moveToEnd();
+}
+
 // randomStyler - picks a random number of stylers and calls them
 //---------------------------------------------------------------------
 function randomStyler() {
@@ -109,13 +122,14 @@ function randomStyler() {
     //--------------------------------------------------------------------
     var themeidx = Math.floor(Math.random() * CPallete.length);
     styler.theme = CPallete[themeidx];
+    
     styler.themeBG = styler.theme[Math.floor(Math.random() * styler.theme.length)]
     styler.themeFG = -1;
     for (; styler.themeFG < 0 || styler.themeFG == styler.themeBG;) {
         styler.themeFG = styler.theme[Math.floor(Math.random() * styler.theme.length)];
     }
 
-    setBackgroundRectangle();
+    createBackgroundRectangle();
 
     var numFns = Math.floor(Math.random() * styler_functions.length) + 1;  // random number indicating the number of functions we're going to call in this style
     var fns = [];
@@ -159,6 +173,11 @@ function stylizeVid() {
     randomStyler();  // for now, just do a random styling
 }
 
-app.beginUndoGroup("Sytlize Lyrics");
-stylizeVid();
-app.endUndoGroup();
+if (app.project.activeItem instanceof CompItem) {
+	app.beginUndoGroup("Sytlize Lyrics");
+	stylizeVid();
+	app.endUndoGroup();
+} else {
+	// active item is not a composition
+	alert("Active item is not a composition");
+}

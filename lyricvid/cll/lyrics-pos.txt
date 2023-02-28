@@ -59,8 +59,10 @@
 #(218.993001302083,220.933333333333):For Cute Little Lesbians	
 #(220.933333333333,226.7):Cute, cute, cute, Little Lesbians
 #(226.912467447917,232.666666666667):Cute, cute, cute, Little Lesbians	
-#(232.722233072917,236.366666666667):Just me and you
-and your little girlfriend
+#(232.722233072917,234.133333333333):Just me and you
+#(234.133333333333,236.333333333333):and your little girlfriend
 #(236.3986328125,239.266666666667):Me and you and your little girlfriend
-#(239.341731770833,243):Me and you
-and your little girlfriend too	
+#(239.341731770833,240.333333333333):Me and you
+#(240.272981770833,243.1):and your little girlfriend too	
+#(250.533333333333,251.966666666667):Yea Yeah!
+#(0,254.833333333333):
