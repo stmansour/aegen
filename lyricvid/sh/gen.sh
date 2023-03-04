@@ -136,7 +136,7 @@ GenerateVideoMakerScripts() {
     GenAppInfo
     cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${VIDMAKER}"
     cat "${TMPINFOFILE}" "${SRCROOT}/regen.js" > "${REGENFILE}"
-    cat "${TMPINFOFILE}" "${SRCROOT}/cpallete.js" "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/cpallete.js" "${SRCROOT}/fontlist.js" "${SRCROOT}/interface.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" > "${STYLER}"
     rm "${TMPINFOFILE}"
 }
 

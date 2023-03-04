@@ -754,10 +754,5 @@ fontList = [
 	"Verdana-Italic",
 	"Waseem",
 	"WaseemLight",
-	"Webdings",
-	"Wingdings-Regular",
-	"Wingdings2",
-	"Wingdings3",
-	"ZapfDingbatsITC",
 	"Zapfino",
 ];

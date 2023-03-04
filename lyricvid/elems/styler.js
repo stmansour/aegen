@@ -16,6 +16,14 @@ var styler = {
     themeFG: 0,
     fns: [],
     checkPerf: true,
+    window: null,
+    fontDialog: null,
+    resetButton: null,
+    fadeInButton: null,
+    fadeOutButton: null,
+    randStylerButton: null,
+    changeFontButton: null,
+    doneButton: null,
 };
 
 var performanceTimings = [];
@@ -39,7 +47,7 @@ function stopPerfTiming(description) {
     var timing = null;
     var j = -1;
     for (var i = 0; i < performanceTimings.length; i++) {
-        if ( performanceTimings[i].description == description ) {
+        if (performanceTimings[i].description == description) {
             j = i;
             timing = performanceTimings[j];
             break;
@@ -178,8 +186,11 @@ function createBackgroundRectangle() {
         bgRectLayer.remove();
     }
     var newColor = hexToColor(styler.themeBG);
-    var newLayer = comp.layers.addSolid(newColor, "BGRect", comp.width, comp.height, comp.pixelAspect);
+    var newLayer = comp.layers.addSolid(newColor, "BGRect", comp.width * 4, comp.height * 4, comp.pixelAspect);
     newLayer.moveToEnd();
+    newLayer.threeDLayer = true; // ensure it's 3d
+    newLayer.property("Position").setValue([comp.width / 2, comp.height / 2, 2000]);
+
 }
 
 // randomStyler - picks a random number of stylers and calls them
@@ -217,7 +228,7 @@ function randomStyler() {
     }
 
     stylerRandomFont();
-    changeAllTextFonts(styler.fontName,styler.fontSize, hexToColor(styler.themeFG));
+    changeAllTextFonts(styler.fontName, styler.fontSize, hexToColor(styler.themeFG));
 
     //------------------------------------------------------------------
     // Now let's call this randomly generated styler...
@@ -276,7 +287,9 @@ function stylizeVid() {
 
 if (app.project.activeItem instanceof CompItem) {
     app.beginUndoGroup("Sytlize Lyrics");
-    stylizeVid();
+    // stylizeVid();
+    initInterface();
+    styler.window.show();
     app.endUndoGroup();
 } else {
     // active item is not a composition

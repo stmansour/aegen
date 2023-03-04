@@ -296,3 +296,26 @@ function setAllTextSize(size) {
     }
 }
 
+// rotateText3D - rotates the text from the first vector of angles to the
+//                second over the supplied duration.
+// 
+// INPUTS
+//   layer = the text layer
+//   size = font size for all text
+//------------------------------------------------------------------------------
+function rotateText3D(textLayer, duration, angles1, angles2) {
+    var inPoint = textLayer.inPoint;
+   var outPoint = inPoint + duration;
+   textLayer.property("X Rotation").addKey(inPoint);
+   textLayer.property("X Rotation").setValueAtTime(inPoint, angles1[0]);
+   textLayer.property("Y Rotation").addKey(inPoint);
+   textLayer.property("Y Rotation").setValueAtTime(inPoint, angles1[1]);
+   textLayer.property("Z Rotation").addKey(inPoint);
+   textLayer.property("Z Rotation").setValueAtTime(inPoint, angles1[2]);
+   textLayer.property("X Rotation").addKey(outPoint);
+   textLayer.property("X Rotation").setValueAtTime(outPoint, angles2[0]);
+   textLayer.property("Y Rotation").addKey(outPoint);
+   textLayer.property("Y Rotation").setValueAtTime(outPoint, angles2[1]);
+   textLayer.property("Z Rotation").addKey(outPoint);
+   textLayer.property("Z Rotation").setValueAtTime(outPoint, angles2[2]);
+ }
