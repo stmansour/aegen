@@ -2,9 +2,10 @@
 
 LOGFILE="log"
 COOKIES=
-OUTFILE="vidmaker.jsx"
+VIDMAKER="vidmaker.jsx"
 REGENFILE="rebuild-lyrics.jsx"
 STYLER="styler.jsx"
+STYLEFILE="style.json"
 TMPINFOFILE="qqzzff"
 CWD=$(pwd)
 DURATION=200        # if no duration or audio is specified, assume 200 seconds
@@ -18,11 +19,11 @@ DESCRIPTION
     gen.sh is a shell script that creates an Adobe After Effects script to
     produce a lyric video based on a song file (currently of type MP3)
     and a text file containing the lyrics. It creates two files:
-    ${OUTFILE} and ${REGENFILE}. Open After Effects, then select
+    ${VIDMAKER} and ${REGENFILE}. Open After Effects, then select
 
     File->Scripts->Other Script...
 
-    then select ${OUTFILE}.  This will create a new video called LyricVid.
+    then select ${VIDMAKER}.  This will create a new video called LyricVid.
     No audio file is required to create the video. If the audio file is
     available it is best to supply it using the -a option. This will allow
     the correct duration of the video to be set. It will also add the audio
@@ -118,6 +119,8 @@ var lyricapp = {
     lyricsFilename: "${LYRICFILE}",
     audioFilename: "${AUDIOFILE}",
     writeFilename: "${CWD}/output.txt",
+    styleFilename: "${CWD}/${STYLEFILE}",
+    perfFilename: "${CWD}/perf.csv",
     compName: "(Official Lyric Video)",
     compWidth: 1920,
     compHeight: 1080,
@@ -129,25 +132,12 @@ FEOF
 
 }
 
-GenConfigInfo() {
-
-    cat >"${STYLER}" <<FEOF
-var config = {
-    directory: "${CWD}",
-};
-FEOF
-
-    cat "${SRCROOT}/fontlist.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" >> "${STYLER}"
-
-}
-
-
 GenerateVideoMakerScripts() {
     GenAppInfo
-    cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${OUTFILE}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/fontlist.js" "${SRCROOT}/gen.js" > "${VIDMAKER}"
     cat "${TMPINFOFILE}" "${SRCROOT}/regen.js" > "${REGENFILE}"
+    cat "${TMPINFOFILE}" "${SRCROOT}/cpallete.js" "${SRCROOT}/fontlist.js" "${SRCROOT}/interface.js" "${SRCROOT}/stylerprims.js" "${SRCROOT}/styler.js" > "${STYLER}"
     rm "${TMPINFOFILE}"
-    GenConfigInfo
 }
 
 ###############################################################################
@@ -190,6 +180,8 @@ while getopts "a:d:l:s:uh" o; do
     esac
 done
 shift $((OPTIND-1))
+
+echo "SRCROOT = ${SRCROOT}"
 
 if [ "${1}x" != "x" ]; then
     LYRICFILE="${1}"
