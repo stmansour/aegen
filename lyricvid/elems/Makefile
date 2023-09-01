@@ -10,4 +10,4 @@ clean:
 package:
 	@echo "packaging in ${THISDIR}"
 	mkdir -p "${DIST}"
-	cp *.js "${DIST}/"
+	cp *.js *.jsx "${DIST}/"
