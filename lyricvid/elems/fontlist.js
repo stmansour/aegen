@@ -87,6 +87,7 @@ fontList = [
 	"AvenirNextCondensed-UltraLightItalic",
 	"Ayuthaya",
 	"Baghdad",
+	"Bangers-Regular",
 	"BanglaMN",
 	"BanglaMN-Bold",
 	"BanglaSangamMN",

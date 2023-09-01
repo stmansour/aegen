@@ -1,68 +1,70 @@
 #compName:(Official Lyric Video)
 #compWidth:1920
 #compHeight:1080
-#(0,2):Cute Little Lesbians
-#(0.76666666666667,6.16666666666667):You got me down on my knees
-#(6.44306640625,11.4666666666667):You’ve got me climbing the trees
-#(11.5861653645833,14.4):And bangin' the drum
-#(14.4625651041667,22.9333333333333):For cute little lesbians	
-#(57.3056640625,59.8666666666667):Some guys are so scared they run
-#(60.3333333333333,61.4333333333333):Ohhh ohhh
-#(61.75849609375,62.9333333333333):But to me
-#(63.0348958333333,66.1):It's not worth it to mention
-#(66.24462890625,67.9):Ohh, Ohh
-#(69.3877278645833,71.5666666666667):She's smilin' like Elvis
-#(71.6974609375,75.1):When she sees that hot little girl go by
-#(76.1405598958333,77.8666666666667):Waggin' her pelvis
-#(78.2836263020833,79.9666666666667):Just like a guy	
-#(80.9266927083333,83.5333333333333):These girls just wanna' have fun,
-#(84.1697916666667,86.7):But I think I'm fallin' in love
-#(86.7795247395833,88.3333333333333):They drive me wild	
-#(88.5226236979167,91):Cute Little Lesbians
-#(91.6990234375,93.9666666666667):Cute Little Lesbians	
-#(97.2754557291667,99.6666666666667):Most girls just don't have the stuff
-#(100.218522135417,103.1):Ohhh ohhh to play
-#(103.361588541667,107.538020833333):play the part of the femme-fe-tough
-#(107.771354166667,109.833333333333):She wonders sometimes
-#(109.94775390625,111):What it is like
-#(111.024186197917,112.933333333333):To have what I have
-#(113.0005859375,114.066666666667):And have it all night
-#(114.210319010417,115.733333333333):To flash it, and wield it
-#(115.720084635417,117.566666666667):Admire it and feel it
-#(117.663151041667,120.1):And plunge it like a knife	
-#(120.972916666667,124):And if she wants to include
-#(124.082649739583,126.7):Her friend, well, I won't refuse
-#(126.692415364583,128.3):But I love only one
-#(128.5021484375,130.466666666667):Cute Little Lesbian	
-#(130.478548177083,136):Cute, cute, cute, Little Lesbians
-#(136.221647135417,143.9):Cute, cute, cute, Little Lesbians	
-#(144.366666666667,149.733333333333):I'll never ask of you to change your ways
-#(150.374479166667,155.666666666667):You know I'll love you ‘til the end of days
-#(155.684212239583,158.3):I'll be right here
-#(158.327278645833,161.566666666667):when others run, run, run
-#(162.9037109375,165.4):Count on me to always
-#(165.380110677083,170.466666666667):Come, come, come, come	
-#(187.933333333333,189.5):So, why don't you throw
-#(189.499609375,191.133333333333):Ohh, ohh
-#(191.142708333333,193.8):Whooaa, a little look my way
-#(194.519108072917,195.966666666667):You might even like it
-#(195.966666666667,198.333333333333):What's gettin' in our way
-#(199.038606770833,200.533333333333):Cuz I know you girl
-#(200.615006510417,201.766666666667):I know how you think
-#(201.75810546875,203.3):That man's at his best
-#(203.267838541667,204.866666666667):When he's fixing your sink
-#(204.877571614583,208.2):But who better to covet your gender and love it
-#(208.187337239583,211.4):and protect you when you sleep	
-#(211.930403645833,214.666666666667):You've got me down on my knees
-#(214.940169270833,217.633333333333):You got me climbin' the trees
-#(217.64990234375,219):And bangin' the drum
-#(218.993001302083,220.933333333333):For Cute Little Lesbians	
-#(220.933333333333,226.7):Cute, cute, cute, Little Lesbians
-#(226.912467447917,232.666666666667):Cute, cute, cute, Little Lesbians	
-#(232.722233072917,234.133333333333):Just me and you
-#(234.133333333333,236.333333333333):and your little girlfriend
-#(236.3986328125,239.266666666667):Me and you and your little girlfriend
-#(239.341731770833,240.333333333333):Me and you
-#(240.272981770833,243.1):and your little girlfriend too	
-#(250.533333333333,251.966666666667):Yea Yeah!
-#(0,254.833333333333):
+#(0,3.36666666666667):Cute Little Lesbians
+#(3.36666666666667,8.76666666666667):You got me down on my knees
+#(9.46666666666667,14.0666666666667):You’ve got me climbing the trees
+#(14.1861653645833,17):And bangin' the drum
+#(17.0625651041667,25.5333333333333):For cute little lesbians	
+#(59.9056640625,62.4666666666667):Some guys are so scared they run
+#(62.9333333333333,64.0333333333333):Ohhh ohhh
+#(64.35849609375,65.5333333333333):But to me
+#(65.6348958333333,68.7):It's not worth it to mention
+#(68.84462890625,70.5):Ohh, Ohh
+#(71.9877278645833,74.1666666666667):She's smilin' like Elvis
+#(74.2974609375,77.7):When she sees that hot little girl go by
+#(78.7405598958333,80.4666666666667):Waggin' her pelvis
+#(80.8836263020833,82.5666666666667):Just like a guy	
+#(83.5266927083333,86.1333333333333):These girls just wanna have fun
+#(86.7697916666667,89.3):But I think I'm fallin' in love
+#(89.3795247395833,90.9333333333333):They drive me wild	
+#(91.1226236979167,93.6):Cute Little Lesbians
+#(94.1,96.5666666666667):Cute Little Lesbians	
+#(99.8754557291667,102.6):Most girls don't have the stuff
+#(102.818522135417,105.7):Ohhh ohhh to play
+#(105.961588541667,110.138020833333):play the part of thefemme-fe-tough
+#(110.371354166667,112.433333333333):She wonders sometimes
+#(112.54775390625,113.6):What it is like
+#(113.624186197917,115.533333333333):To have what I have
+#(115.6005859375,116.666666666667):And have it all night
+#(116.810319010417,118.333333333333):To flash it and wield it
+#(118.320084635417,120.166666666667):Admire it and feel it
+#(120.263151041667,122.7):And plunge it like a knife	
+#(123.572916666667,126.6):And if she wantsto include
+#(126.682649739583,129.3):Her friend well I won't refuse
+#(129.292415364583,130.9):But I love only one
+#(131.1021484375,132.666666666667):Cute Little Lesbian	
+#(132.666666666667,138.6):Cute, cute, cute Little Lesbians
+#(138.821647135417,146.5):Cute, cute, cute Little Lesbians
+#(146.966666666667,152.6):I'll never ask of you to change your ways
+#(152.974479166667,158.266666666667):You know I'll love you ‘til the end of days
+#(159,160.9):I'll be right here
+#(160.927278645833,164.166666666667):when others run, run, run
+#(165.5037109375,168):Count on me to always
+#(167.980110677083,168.733333333333):Come	
+#(168.733333333333,169.5):Come	
+#(169.5,170.366666666667):Come	
+#(170.366666666667,172.766666666667):Come	
+#(190.533333333333,192.1):So why don't you throw
+#(192.099609375,193.733333333333):Ohh, ohh
+#(193.742708333333,196.833333333333):Whooaa a little look my way
+#(197.119108072917,198.566666666667):You might even like it
+#(198.566666666667,200.933333333333):What's gettin' in our way
+#(201.638606770833,203.133333333333):Cuz I know you girl
+#(203.215006510417,204.366666666667):I know how you think
+#(204.35810546875,205.9):That man's at his best
+#(205.867838541667,207.466666666667):When he's fixing your sink
+#(207.477571614583,210.8):But who better to covet your gender and love it
+#(210.787337239583,214):and protect you when you sleep	
+#(214.530403645833,217.266666666667):You've got me down on my knees
+#(217.540169270833,220.233333333333):You got me climbin' the trees
+#(220.24990234375,221.6):And bangin' the drum
+#(221.593001302083,223.533333333333):For Cute Little Lesbians	
+#(223.533333333333,229.3):Cute, cute, cute Little Lesbians
+#(229.512467447917,235.266666666667):Cute, cute, cute Little Lesbians
+#(235.322233072917,236.733333333333):Just me and you
+#(236.733333333333,238.933333333333):and your little girlfriend
+#(238.9986328125,241.866666666667):Me and you and your little girlfriend
+#(241.941731770833,242.866666666667):Me and you
+#(242.872981770833,245.7):and your little girlfriend too
+#(253.133333333333,254.333333333333):Yea Yeah!

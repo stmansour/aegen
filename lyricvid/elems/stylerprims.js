@@ -244,6 +244,36 @@ function hexToColor(color) {
     return [red / 255, green / 255, blue / 255];
 }
 
+// setTextStroke - sets the strokewidth and color of the text to the values supplied.
+// 
+// INPUTS
+//   layer = the text layer
+//   color = strokeColor rgb values encoded into an integer:  0xRRGGBB
+//           example:  0xff00ff
+//   strokewidth = strokewidth for the font.
+//------------------------------------------------------------------------------
+function setTextStroke(layer, color, strokeWidth) {
+    var newColor = hexToColor(color);
+    var textProp = layer.property("Source Text");
+    var textDocument = textProp.value;
+	textDocument.strokeColor = newColor;
+	textDocument.strokeWidth = strokeWidth;
+    textProp.setValue(textDocument);
+}
+
+// setAllTextStroke - sets all text to the styler's FG color
+//------------------------------------------------------------------------------
+function setAllTextStroke(color, strokeWidth) {
+    var comp = app.project.activeItem;
+    for (var i = 1; i <= comp.numLayers; i++) {
+        var layer = comp.layer(i);
+        if (layer instanceof TextLayer) {
+            setTextStroke(layer, color, strokeWidth);
+        }
+    }
+}
+
+
 // setTextColor - sets the supplied text to the supplied color.
 // 
 // INPUTS

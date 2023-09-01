@@ -7,6 +7,8 @@ var styler_functions = [
 var styler = {
     fontName: "Myriad-Roman",
     fontSize: 78,
+    fontStrokeSize: 0,
+    fontStrokeColor: "0x000000", // hex number to indicate coloe
     fade_in_time: 0.25,
     fade_out_time: 0.25,
     move_duration: 1,
@@ -18,11 +20,13 @@ var styler = {
     checkPerf: true,
     window: null,
     fontDialog: null,
+    fontStrokeDialog: null,
     resetButton: null,
     fadeInButton: null,
     fadeOutButton: null,
     randStylerButton: null,
     changeFontButton: null,
+    changeFontStrokeButton: null,
     doneButton: null,
 };
 
